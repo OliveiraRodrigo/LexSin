@@ -1,0 +1,36 @@
+START -> program ID; var LISTADEC BLOCOM
+
+LISTADEC -> LISTADEC DEC | DEC
+
+DEC -> LISTAID : TIPO;
+
+LISTAID -> LISTAID, ID | ID
+
+TIPO -> real | boolean
+
+BLOCOM -> begin LISTACOM end
+
+LISTACOM -> LISTACOM; COM | COM
+
+COM -> read(LISTAID) | write(LISTAEXP) | ID := EXP | IF
+
+IF -> if EXP then BLOCOM | if EXP then BLOCOM else BLOCOM
+
+LISTAEXP -> LISTAEXP, EXP | EXP
+
+EXP -> (EXP) | EXP OP EXP | ID | REAL | BOOL
+
+OP -> * | / | div | + | - | not | and | or | > | < | >= | <= | = | <>
+
+ID -> ID LET | ID NUM | LET
+
+LET -> _|a|...|z|A|...|Z
+
+NUM -> NUM DIG | DIG
+
+DIG -> 0|...|9
+
+REAL -> NUM | NUM.NUM
+
+BOOL -> true | false
+

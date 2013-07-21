@@ -1,0 +1,5 @@
+{comentario de várias
+linhas
+aqui}identificador1 <= (x + 15) - 0.4/y//comentário
+//comentario de uma linha
+normal and 5 div qwe*3.000yyy

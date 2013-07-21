@@ -1,0 +1,5 @@
+id=1+x*2.4 
+ x = true
+{ }qualquer
+//  
+  $
