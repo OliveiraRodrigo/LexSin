@@ -170,7 +170,6 @@ char busca_caracter(char caracter, int ini, int fim){
 char ** gera_token(char * entrada, int * index, char * fim, int * linha, int * coluna){
     
     char
-        * temp,
         **saida,
         continua = 'v';
     int
@@ -179,16 +178,12 @@ char ** gera_token(char * entrada, int * index, char * fim, int * linha, int * c
         e = *index;
     static char
         teve_token = 'f';
-    static int
-        c = 0;
     
     saida = (char**) malloc(2*sizeof(char));
     saida[0] = (char*) calloc(20, sizeof(char));
     saida[1] = (char*) calloc(200, sizeof(char));
-    temp = (char*) calloc(2, sizeof(char));
     saida[0] = "!ERRO!";
-    //saida[1] = " ";
-    temp = " ";
+    //saida[1] = "";
     *fim = 'f';
     
     if(strlen(entrada) == 0){
@@ -356,8 +351,8 @@ char ** gera_token(char * entrada, int * index, char * fim, int * linha, int * c
                 break;
             case 1:
                 saida[0] = "[REAL]";
-                sprintf(temp, "%c", entrada[e-1]);
-                strcat(saida[1], temp);
+                sprintf(saida[1], "%s%c", saida[1], entrada[e-1]);
+                
                 if(busca_caracter(entrada[e], 53, 62) == 'v'){ //0-9
                     continua = 'v';
                     e++;
@@ -376,8 +371,8 @@ char ** gera_token(char * entrada, int * index, char * fim, int * linha, int * c
                 break;
             case 2:
                 saida[0] = "!ERRO!";
-                sprintf(temp, "%c", entrada[e-1]);
-                strcat(saida[1], temp);
+                sprintf(saida[1], "%s%c", saida[1], entrada[e-1]);
+                
                 if(busca_caracter(entrada[e], 53, 62) == 'v'){ //0-9
                     continua = 'v';
                     e++;
@@ -390,8 +385,8 @@ char ** gera_token(char * entrada, int * index, char * fim, int * linha, int * c
                 break;
             case 3:
                 saida[0] = "[REAL]";
-                sprintf(temp, "%c", entrada[e-1]);
-                strcat(saida[1], temp);
+                sprintf(saida[1], "%s%c", saida[1], entrada[e-1]);
+                
                 if(busca_caracter(entrada[e], 53, 62) == 'v'){ //0-9
                     continua = 'v';
                     e++;
@@ -403,8 +398,8 @@ char ** gera_token(char * entrada, int * index, char * fim, int * linha, int * c
                 break;
             case 4:
                 saida[0] = "[ID]";
-                sprintf(temp, "%c", entrada[e-1]);
-                strcat(saida[1], temp);
+                sprintf(saida[1], "%s%c", saida[1], entrada[e-1]);
+                
                 if(busca_caracter(entrada[e], 0, 62) == 'v'){ //a-z,A-Z,_,0-9
                     continua = 'v';
                     e++;
@@ -416,8 +411,8 @@ char ** gera_token(char * entrada, int * index, char * fim, int * linha, int * c
                 break;
             case 5:
                 saida[0] = "[ID]";
-                sprintf(temp, "%c", entrada[e-1]);
-                strcat(saida[1], temp);
+                sprintf(saida[1], "%s%c", saida[1], entrada[e-1]);
+                
                 if(entrada[e] == 'i'){
                     continua = 'v';
                     e++;
@@ -436,8 +431,8 @@ char ** gera_token(char * entrada, int * index, char * fim, int * linha, int * c
                 break;
             case 6:
                 saida[0] = "[ID]";
-                sprintf(temp, "%c", entrada[e-1]);
-                strcat(saida[1], temp);
+                sprintf(saida[1], "%s%c", saida[1], entrada[e-1]);
+                
                 if(entrada[e] == 'v'){
                     continua = 'v';
                     e++;
@@ -549,8 +544,8 @@ char ** gera_token(char * entrada, int * index, char * fim, int * linha, int * c
                 break;
             case 20:
                 saida[0] = "[ID]";
-                sprintf(temp, "%c", entrada[e-1]);
-                strcat(saida[1], temp);
+                sprintf(saida[1], "%s%c", saida[1], entrada[e-1]);
+                
                 if(entrada[e] == 'o'){
                     continua = 'v';
                     e++;
@@ -569,8 +564,8 @@ char ** gera_token(char * entrada, int * index, char * fim, int * linha, int * c
                 break;
             case 21:
                 saida[0] = "[ID]";
-                sprintf(temp, "%c", entrada[e-1]);
-                strcat(saida[1], temp);
+                sprintf(saida[1], "%s%c", saida[1], entrada[e-1]);
+                
                 if(entrada[e] == 't'){
                     continua = 'v';
                     e++;
@@ -601,8 +596,8 @@ char ** gera_token(char * entrada, int * index, char * fim, int * linha, int * c
                 break;
             case 23:
                 saida[0] = "[ID]";
-                sprintf(temp, "%c", entrada[e-1]);
-                strcat(saida[1], temp);
+                sprintf(saida[1], "%s%c", saida[1], entrada[e-1]);
+                
                 if(entrada[e] == 'n'){
                     continua = 'v';
                     e++;
@@ -621,8 +616,8 @@ char ** gera_token(char * entrada, int * index, char * fim, int * linha, int * c
                 break;
             case 24:
                 saida[0] = "[ID]";
-                sprintf(temp, "%c", entrada[e-1]);
-                strcat(saida[1], temp);
+                sprintf(saida[1], "%s%c", saida[1], entrada[e-1]);
+                
                 if(entrada[e] == 'd'){
                     continua = 'v';
                     e++;
@@ -653,8 +648,8 @@ char ** gera_token(char * entrada, int * index, char * fim, int * linha, int * c
                 break;
             case 26:
                 saida[0] = "[ID]";
-                sprintf(temp, "%c", entrada[e-1]);
-                strcat(saida[1], temp);
+                sprintf(saida[1], "%s%c", saida[1], entrada[e-1]);
+                
                 if(entrada[e] == 'r'){
                     continua = 'v';
                     e++;
@@ -712,8 +707,8 @@ char ** gera_token(char * entrada, int * index, char * fim, int * linha, int * c
                 break;
             case 32:
                 saida[0] = "[ID]"; //true
-                sprintf(temp, "%c", entrada[e-1]);
-                strcat(saida[1], temp);
+                sprintf(saida[1], "%s%c", saida[1], entrada[e-1]);
+                
                 if(entrada[e] == 'r'){
                     continua = 'v';
                     e++;
@@ -732,8 +727,8 @@ char ** gera_token(char * entrada, int * index, char * fim, int * linha, int * c
                 break;
             case 33:
                 saida[0] = "[ID]"; //true
-                sprintf(temp, "%c", entrada[e-1]);
-                strcat(saida[1], temp);
+                sprintf(saida[1], "%s%c", saida[1], entrada[e-1]);
+                
                 if(entrada[e] == 'u'){
                     continua = 'v';
                     e++;
@@ -751,8 +746,8 @@ char ** gera_token(char * entrada, int * index, char * fim, int * linha, int * c
                 }
             case 34:
                 saida[0] = "[ID]"; //true
-                sprintf(temp, "%c", entrada[e-1]);
-                strcat(saida[1], temp);
+                sprintf(saida[1], "%s%c", saida[1], entrada[e-1]);
+                
                 if(entrada[e] == 'e'){
                     continua = 'v';
                     e++;
@@ -783,8 +778,8 @@ char ** gera_token(char * entrada, int * index, char * fim, int * linha, int * c
                 break;
             case 36:
                 saida[0] = "[ID]"; //false
-                sprintf(temp, "%c", entrada[e-1]);
-                strcat(saida[1], temp);
+                sprintf(saida[1], "%s%c", saida[1], entrada[e-1]);
+                
                 if(entrada[e] == 'a'){
                     continua = 'v';
                     e++;
@@ -803,8 +798,8 @@ char ** gera_token(char * entrada, int * index, char * fim, int * linha, int * c
                 break;
             case 37:
                 saida[0] = "[ID]"; //false
-                sprintf(temp, "%c", entrada[e-1]);
-                strcat(saida[1], temp);
+                sprintf(saida[1], "%s%c", saida[1], entrada[e-1]);
+                
                 if(entrada[e] == 'l'){
                     continua = 'v';
                     e++;
@@ -823,8 +818,8 @@ char ** gera_token(char * entrada, int * index, char * fim, int * linha, int * c
                 break;
             case 38:
                 saida[0] = "[ID]"; //false
-                sprintf(temp, "%c", entrada[e-1]);
-                strcat(saida[1], temp);
+                sprintf(saida[1], "%s%c", saida[1], entrada[e-1]);
+                
                 if(entrada[e] == 's'){
                     continua = 'v';
                     e++;
@@ -843,8 +838,8 @@ char ** gera_token(char * entrada, int * index, char * fim, int * linha, int * c
                 break;
             case 39:
                 saida[0] = "[ID]"; //false
-                sprintf(temp, "%c", entrada[e-1]);
-                strcat(saida[1], temp);
+                sprintf(saida[1], "%s%c", saida[1], entrada[e-1]);
+                
                 if(entrada[e] == 'e'){
                     continua = 'v';
                     e++;
@@ -888,7 +883,15 @@ char ** gera_token(char * entrada, int * index, char * fim, int * linha, int * c
             *fim = 'v';
         }
     }
-    
+    /*
+    if(saida[0] == "[ID]"){
+        if(reservada(saida[1])){
+            //saida[0] = "[VAR]";
+            strupr(saida[1]);
+            sprintf(saida[0], "[%s]", saida[1]);
+        }
+    }
+    */
     if(*fim == 'v'){
         if(saida[0] == "!ERRO!"){
             *fim = 'e';
@@ -905,7 +908,6 @@ char * analise_lexica(char * entrada){
     char
         **recebe,
         * saida,
-        * temp,
         * fim;
     int
         * index,
@@ -918,7 +920,7 @@ char * analise_lexica(char * entrada){
     recebe[0] = " ";
     
     saida  = (char*) calloc(1000, sizeof(char));
-    temp   = (char*) calloc(1000, sizeof(char));
+    //temp   = (char*) calloc(1000, sizeof(char));
     fim    = (char*) calloc(   1, sizeof(char));
     index  =  (int*) calloc(   1, sizeof(int));
     linha  =  (int*) calloc(   1, sizeof(int));
@@ -932,20 +934,23 @@ char * analise_lexica(char * entrada){
     while(*fim == 'f'){
         /* Vai concatenando os tokens */
         recebe = gera_token(entrada, index, fim, linha, coluna);
-        strcat(saida, recebe[0]);
-        strcat(saida, recebe[1]);
+        sprintf(saida, "%s%s%s", saida, recebe[0], recebe[1]);
+        //strcat(saida, recebe[0]);
+        //strcat(saida, recebe[1]);
     }
     
     if(*fim == 'v'){
-        strcat(saida, "\n\nAnalise lexica completada com sucesso.\n");
+        //strcat(saida, "\n\nAnalise lexica completada com sucesso.\n");
+        sprintf(saida, "%s\n\nAnalise lexica completada com sucesso.\n", saida);
     }
     else{ // *fim == 'e'
         if(strlen(entrada) > 0){
-            sprintf(temp, "\n\n[Erro lexico na linha %d, coluna %d]\n", *linha, *coluna);
-            strcat(saida, temp);
+            sprintf(saida, "%s\n\n[Erro lexico na linha %d, coluna %d]\n", saida, *linha, *coluna);
+            //strcat(saida, temp);
         }
         else{
-            strcat(saida, "\n\n[Erro sintatico na linha 1, coluna 1]\n");
+            sprintf(saida, "%s\n\n[Erro sintatico na linha 1, coluna 1]\n", saida);
+            //strcat(saida, "\n\n[Erro sintatico na linha 1, coluna 1]\n");
         }
     }
     
