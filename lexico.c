@@ -883,15 +883,16 @@ char ** gera_token(char * entrada, int * index, char * fim, int * linha, int * c
             *fim = 'v';
         }
     }
-    /*
+    
     if(saida[0] == "[ID]"){
         if(reservada(saida[1])){
-            //saida[0] = "[VAR]";
-            strupr(saida[1]);
+            saida[0] = (char*) calloc(20, sizeof(char));
+            // Nao sei pq tem q alocar espaco de novo. Mas tem q!
             sprintf(saida[0], "[%s]", saida[1]);
+            strupr(saida[0]);
         }
     }
-    */
+    
     if(*fim == 'v'){
         if(saida[0] == "!ERRO!"){
             *fim = 'e';
