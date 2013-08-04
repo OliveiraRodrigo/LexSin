@@ -10,7 +10,7 @@
 #include <string.h>
 #include "lexico.h"
 
-char busca_reservada(char * palavra){
+int reservada(char * palavra){
     
     char
         * reservadas[15];
@@ -34,10 +34,10 @@ char busca_reservada(char * palavra){
     
     for(i = 0; i < quant; i++){
         if(!strcmp(palavra, reservadas[i])){
-            return 'v';
+            return 1;
         }
     }
-    return 'f';
+    return 0;
 }
 
 char valida_estrutura(char * string){
