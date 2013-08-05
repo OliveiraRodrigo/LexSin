@@ -18,14 +18,37 @@ extern "C" {
 
 #endif	/* FUNCOES_H */
 
-/* Recebe um identificador e retorna 'v',
- * se o mesmo corresponde a uma palavra reservada, ou 'f'. */
-char busca_reservada(char * palavra);
 
-char valida_estrutura(char * string);
+char * START(char * entrada);
 
-char valida_declaracao(char * string);
+int LISTADEC(char * entrada);
 
-char valida_comando(char * string);
+int BLOCOM(char * entrada);
 
-char valida_expressao(char * string);
+int DEC(char * entrada);
+
+int LISTAID(char * entrada);
+
+int TIPO(char * entrada);
+
+int LISTACOM(char * entrada);
+
+int COM(char * entrada);
+
+int LISTAEXP(char * entrada);
+
+int EXP(char * entrada);
+
+int IF(char * entrada);
+
+int ELSE(char * entrada);
+
+int E1(char * entrada);
+
+int E2(char * entrada);
+
+int E3(char * entrada);
+
+int E4(char * entrada);
+
+int UNIT(char * entrada);

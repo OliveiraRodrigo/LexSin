@@ -36,9 +36,13 @@ void limpa_comentarios(char * entrada, char * saida);
  * Retorna 'v' ou 'f'. */
 char busca_caracter(char caracter, int ini, int fim);
 
+/* Recebe um identificador e retorna 1,
+ * se o mesmo corresponde a uma palavra reservada, ou 0. */
+char busca_reservada(char * palavra);
+
 /* Recebe uma string, um ponteiro, um indicador de final e indices de linha e coluna.
  * Retorna o primeiro token encontrado a partir do ponteiro ou um erro. */
-char ** gera_token(char * entrada, int * index, char * fim, int * linha, int * coluna);
+char ** token(char * entrada,/* int * index,*/ char * fim, int * linha, int * coluna);
 
 /* Recebe uma expressao e retorna os tokens correspondentes.
  * Retorna tambem uma mensagem de sucesso ou de erro,

@@ -10,49 +10,98 @@
 #include <string.h>
 #include "lexico.h"
 
-int reservada(char * palavra){
-    
+char * START(char * entrada){
+
     char
-        * reservadas[15];
+        * fim;
     int
-        i, quant = 11;
+        * linha,
+        * coluna;
     
-    for(i = 0; i<quant; i++)
-        reservadas[i] = (char*) calloc(10, sizeof(char));
+    fim    = (char*) calloc(   1, sizeof(char));
+    linha  =  (int*) calloc(   1, sizeof(int));
+    coluna =  (int*) calloc(   1, sizeof(int));
     
-    reservadas[ 0] = "program";
-    reservadas[ 1] = "var";
-    reservadas[ 2] = "real";
-    reservadas[ 3] = "boolean";
-    reservadas[ 4] = "begin";
-    reservadas[ 5] = "end";
-    reservadas[ 6] = "read";
-    reservadas[ 7] = "write";
-    reservadas[ 8] = "if";
-    reservadas[ 9] = "then";
-    reservadas[10] = "else";
-    
-    for(i = 0; i < quant; i++){
-        if(!strcmp(palavra, reservadas[i])){
-            return 1;
+    *fim = 'f';
+    *linha = 1;
+    *coluna = 1;
+
+    if(!strcmp(token(entrada, fim, linha, coluna)[0], "[PROGRAM]")){
+        if(!strcmp(token(entrada, fim, linha, coluna)[0], "[ID]")){
+            if(!strcmp(token(entrada, fim, linha, coluna)[0], "[PTVIR]")){
+                if(!strcmp(token(entrada, fim, linha, coluna)[0], "[VAR]")){
+                    if(LISTADEC(entrada)){
+                        if(BLOCOM(entrada)){
+                            return "OK.";
+                        }
+                    }
+                }
+            }
         }
     }
-    return 0;
+    return "not ok";
 }
 
-char valida_estrutura(char * string){
-    
+int LISTADEC(char * entrada){
+    return 1;
 }
 
-char valida_declaracao(char * string){
-    
+int BLOCOM(char * entrada){
+    return 1;
 }
 
-char valida_comando(char * string){
-    
+int DEC(char * entrada){
+    return 1;
 }
 
-char valida_expressao(char * string){
-    
+int LISTAID(char * entrada){
+    return 1;
 }
 
+int TIPO(char * entrada){
+    return 1;
+}
+
+int LISTACOM(char * entrada){
+    return 1;
+}
+
+int COM(char * entrada){
+    return 1;
+}
+
+int LISTAEXP(char * entrada){
+    return 1;
+}
+
+int EXP(char * entrada){
+    return 1;
+}
+
+int IF(char * entrada){
+    return 1;
+}
+
+int ELSE(char * entrada){
+    return 1;
+}
+
+int E1(char * entrada){
+    return 1;
+}
+
+int E2(char * entrada){
+    return 1;
+}
+
+int E3(char * entrada){
+    return 1;
+}
+
+int E4(char * entrada){
+    return 1;
+}
+
+int UNIT(char * entrada){
+    return 1;
+}

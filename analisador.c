@@ -112,11 +112,13 @@ int main(int argc, char** argv) {
                    clean_string);
             
             free(string);
-            
+            /*
             printf("\nPrograma %d:\n"
                    "%s\n"
                    "_______________________________________\n", arg,
                    analise_lexica(clean_string));
+            */
+            printf("\n%s\n", START(clean_string));
             
             free(clean_string);
         }

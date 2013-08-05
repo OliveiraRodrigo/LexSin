@@ -167,16 +167,47 @@ char busca_caracter(char caracter, int ini, int fim){
     return 'f';
 }
 
-char ** gera_token(char * entrada, int * index, char * fim, int * linha, int * coluna){
+int reservada(char * palavra){
+    
+    char
+        * reservadas[15];
+    int
+        i, quant = 11;
+    
+    for(i = 0; i<quant; i++)
+        reservadas[i] = (char*) calloc(10, sizeof(char));
+    
+    reservadas[ 0] = "program";
+    reservadas[ 1] = "var";
+    reservadas[ 2] = "real";
+    reservadas[ 3] = "boolean";
+    reservadas[ 4] = "begin";
+    reservadas[ 5] = "end";
+    reservadas[ 6] = "read";
+    reservadas[ 7] = "write";
+    reservadas[ 8] = "if";
+    reservadas[ 9] = "then";
+    reservadas[10] = "else";
+    
+    for(i = 0; i < quant; i++){
+        if(!strcmp(palavra, reservadas[i])){
+            return 1;
+        }
+    }
+    return 0;
+}
+
+char ** token(char * entrada, char * fim, int * linha, int * coluna){
     
     char
         **saida,
         continua = 'v';
     int
-        estado = 0,
-        e = *index;
+        estado = 0;
     static char
         teve_token = 'f';
+    static int
+        e = 0;
     
     saida = (char**) malloc(2*sizeof(char));
     saida[0] = (char*) calloc(20, sizeof(char));
@@ -885,7 +916,7 @@ char ** gera_token(char * entrada, int * index, char * fim, int * linha, int * c
     if(saida[0] == "[ID]"){
         if(reservada(saida[1])){
             saida[0] = (char*) calloc(20, sizeof(char));
-            // Nao sei pq tem q alocar espaco de novo. Mas tem q!
+            // Nao sei pq tem q alocar de novo. Mas tem q!
             sprintf(saida[0], "[%s]", saida[1]);
             strupr(saida[0]);
             saida[1] = "";
@@ -899,7 +930,6 @@ char ** gera_token(char * entrada, int * index, char * fim, int * linha, int * c
         teve_token = 'f';
     }
     
-    *index = e;
     return saida;
 }
 
@@ -910,7 +940,6 @@ char * analise_lexica(char * entrada){
         * saida,
         * fim;
     int
-        * index,
         * linha,
         * coluna;
     
@@ -920,42 +949,33 @@ char * analise_lexica(char * entrada){
     recebe[0] = " ";
     
     saida  = (char*) calloc(1000, sizeof(char));
-    //temp   = (char*) calloc(1000, sizeof(char));
     fim    = (char*) calloc(   1, sizeof(char));
-    index  =  (int*) calloc(   1, sizeof(int));
     linha  =  (int*) calloc(   1, sizeof(int));
     coluna =  (int*) calloc(   1, sizeof(int));
     
     *fim = 'f';
-    *index = 0;
     *linha = 1;
     *coluna = 1;
     
     while(*fim == 'f'){
         /* Vai concatenando os tokens */
-        recebe = gera_token(entrada, index, fim, linha, coluna);
-        sprintf(saida, "%s%s%s", saida, recebe[0], recebe[1]);
-        //strcat(saida, recebe[0]);
-        //strcat(saida, recebe[1]);
+        recebe = token(entrada, fim, linha, coluna);
+        sprintf(saida, "%s%s", saida, recebe[0]/*, recebe[1]*/);
     }
     
     if(*fim == 'v'){
-        //strcat(saida, "\n\nAnalise lexica completada com sucesso.\n");
         sprintf(saida, "%s\n\nAnalise lexica completada com sucesso.\n", saida);
     }
     else{ // *fim == 'e'
         if(strlen(entrada) > 0){
             sprintf(saida, "%s\n\n[Erro lexico na linha %d, coluna %d]\n", saida, *linha, *coluna);
-            //strcat(saida, temp);
         }
         else{
             sprintf(saida, "%s\n\n[Erro sintatico na linha 1, coluna 1]\n", saida);
-            //strcat(saida, "\n\n[Erro sintatico na linha 1, coluna 1]\n");
         }
     }
     
     free(fim);
-    free(index);
     
     return saida;
 }
