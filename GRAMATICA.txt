@@ -1,0 +1,94 @@
+GRAMATICA_PASCAL = (VARIAVEIS, TERMINAIS, REGRAS, START)
+
+VARIAVEIS = {
+		START,
+		LISTADEC,
+		BLOCOM,
+		DEC,
+		LISTAID,
+		TIPO,
+		LISTACOM,
+		COM,
+		LISTAEXP,
+		EXP,
+		IF,
+		ELSE,
+		E1,
+		E2,
+		E3,
+		E4,
+		UNIT
+            }
+TERMINAIS = {
+		[PROGRAM],
+		[ID],
+		[PTVIR],
+		[VAR],
+		[DOISPT],
+		[VIRG],
+		[REAL],
+		[BOOLEAN],
+		[BEGIN],
+		[END],
+		[READ],
+		[APAR],
+		[FPAR],
+		[WRITE],
+		[ATRIB],
+		[IF],
+		[THEN],
+		[ELSE],
+		[IGUAL],
+		[DIF],
+		[MAIOR],
+		[MENOR],
+		[MAIOR-IG],
+		[MENOR-IG],
+		[AND],
+		[OR],
+		[NOT],
+		[SOMA],
+		[SUBT],
+		[MULT],
+		[DIV],
+		[DIVINT],
+		[CONST],
+		[BOOL]
+            }
+REGRAS = {
+
+START -> [PROGRAM] [ID][PTVIR] [VAR] LISTADEC BLOCOM
+
+LISTADEC -> DEC LISTADEC | DEC
+
+DEC -> LISTAID [DOISPT] TIPO[PTVIR]
+
+LISTAID -> [ID][VIRG] LISTAID | [ID]
+
+TIPO -> [REAL] | [BOOLEAN]
+
+BLOCOM -> [BEGIN] LISTACOM [END]
+
+LISTACOM -> COM[PTVIR] LISTACOM | COM
+
+COM -> [READ][APAR]LISTAID[FPAR] | [WRITE][APAR]LISTAEXP[FPAR] | [ID] [ATRIB] EXP | IF
+
+IF -> [IF] EXP [THEN] BLOCOM ELSE
+
+ELSE -> [ELSE] BLOCOM | "vazio"
+
+LISTAEXP -> EXP[VIRG] LISTAEXP | EXP
+
+EXP -> E1 [IGUAL] E1 | E1 [DIF] E1 | E1 [MAIOR] E1 | E1 [MENOR] E1 | E1 [MAIOR-IG] E1 | E1 [MENOR-IG] E1 | E1
+
+E1 -> E2 [AND] E1 | E2 [OR] E1 | E2
+
+E2 -> [NOT] E3 | E3
+
+E3 -> E4 [SOMA] E3 | E4 [SUBT] E3 | E4
+
+E4 -> UNIT [MULT] E4 | UNIT [DIV] E4 | UNIT [DIVINT] E4 | UNIT
+
+UNIT -> [APAR]EXP[FPAR] | [ID] | [CONST] | [BOOL]
+
+}

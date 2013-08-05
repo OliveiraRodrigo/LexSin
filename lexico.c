@@ -173,7 +173,6 @@ char ** gera_token(char * entrada, int * index, char * fim, int * linha, int * c
         **saida,
         continua = 'v';
     int
-        i = 0,
         estado = 0,
         e = *index;
     static char
@@ -183,7 +182,6 @@ char ** gera_token(char * entrada, int * index, char * fim, int * linha, int * c
     saida[0] = (char*) calloc(20, sizeof(char));
     saida[1] = (char*) calloc(200, sizeof(char));
     saida[0] = "!ERRO!";
-    //saida[1] = "";
     *fim = 'f';
     
     if(strlen(entrada) == 0){
@@ -350,7 +348,7 @@ char ** gera_token(char * entrada, int * index, char * fim, int * linha, int * c
                 }
                 break;
             case 1:
-                saida[0] = "[REAL]";
+                saida[0] = "[CONST]";
                 sprintf(saida[1], "%s%c", saida[1], entrada[e-1]);
                 
                 if(busca_caracter(entrada[e], 53, 62) == 'v'){ //0-9
@@ -384,7 +382,7 @@ char ** gera_token(char * entrada, int * index, char * fim, int * linha, int * c
                 }
                 break;
             case 3:
-                saida[0] = "[REAL]";
+                saida[0] = "[CONST]";
                 sprintf(saida[1], "%s%c", saida[1], entrada[e-1]);
                 
                 if(busca_caracter(entrada[e], 53, 62) == 'v'){ //0-9
@@ -494,7 +492,7 @@ char ** gera_token(char * entrada, int * index, char * fim, int * linha, int * c
                 }
                 break;
             case 13:
-                saida[0] = "[MAIOR-IGUAL]";
+                saida[0] = "[MAIOR-IG]";
                 saida[1] = "";
                 continua = 'f';
                 break;
@@ -523,7 +521,7 @@ char ** gera_token(char * entrada, int * index, char * fim, int * linha, int * c
                 }
                 break;
             case 16:
-                saida[0] = "[MENOR-IGUAL]";
+                saida[0] = "[MENOR-IG]";
                 saida[1] = "";
                 continua = 'f';
                 break;
@@ -679,7 +677,7 @@ char ** gera_token(char * entrada, int * index, char * fim, int * linha, int * c
                 }
                 break;
             case 28:
-                saida[0] = "[TIPO]";
+                saida[0] = "[DOISPT]";
                 saida[1] = "";
                 if(entrada[e] == '='){
                     continua = 'v';
