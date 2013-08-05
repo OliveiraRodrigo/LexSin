@@ -492,7 +492,7 @@ char ** gera_token(char * entrada, int * index, char * fim, int * linha, int * c
                 }
                 break;
             case 13:
-                saida[0] = "[MAIOR-IG]";
+                saida[0] = "[MAIORIG]";
                 saida[1] = "";
                 continua = 'f';
                 break;
@@ -521,7 +521,7 @@ char ** gera_token(char * entrada, int * index, char * fim, int * linha, int * c
                 }
                 break;
             case 16:
-                saida[0] = "[MENOR-IG]";
+                saida[0] = "[MENORIG]";
                 saida[1] = "";
                 continua = 'f';
                 break;
