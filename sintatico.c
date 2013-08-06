@@ -14,22 +14,15 @@ char * START(char * entrada){
 
     char
         * fim;
-    int
-        * linha,
-        * coluna;
     
     fim    = (char*) calloc(   1, sizeof(char));
-    linha  =  (int*) calloc(   1, sizeof(int));
-    coluna =  (int*) calloc(   1, sizeof(int));
     
     *fim = 'f';
-    *linha = 1;
-    *coluna = 1;
 
-    if(!strcmp(token(entrada, fim, linha, coluna)[0], "[PROGRAM]")){
-        if(!strcmp(token(entrada, fim, linha, coluna)[0], "[ID]")){
-            if(!strcmp(token(entrada, fim, linha, coluna)[0], "[PTVIR]")){
-                if(!strcmp(token(entrada, fim, linha, coluna)[0], "[VAR]")){
+    if(!strcmp(token(entrada, fim)[0], "[PROGRAM]")){
+        if(!strcmp(token(entrada, fim)[0], "[ID]")){
+            if(!strcmp(token(entrada, fim)[0], "[PTVIR]")){
+                if(!strcmp(token(entrada, fim)[0], "[VAR]")){
                     if(LISTADEC(entrada)){
                         if(BLOCOM(entrada)){
                             return "OK.";

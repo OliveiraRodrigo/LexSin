@@ -42,7 +42,7 @@ char busca_reservada(char * palavra);
 
 /* Recebe uma string, um ponteiro, um indicador de final e indices de linha e coluna.
  * Retorna o primeiro token encontrado a partir do ponteiro ou um erro. */
-char ** token(char * entrada,/* int * index,*/ char * fim, int * linha, int * coluna);
+char ** token(char * entrada, char * fim/*, int * linha, int * coluna*/);
 
 /* Recebe uma expressao e retorna os tokens correspondentes.
  * Retorna tambem uma mensagem de sucesso ou de erro,

@@ -197,7 +197,7 @@ int reservada(char * palavra){
     return 0;
 }
 
-char ** token(char * entrada, char * fim, int * linha, int * coluna){
+char ** token(char * entrada, char * fim){
     
     char
         **saida,
@@ -207,7 +207,9 @@ char ** token(char * entrada, char * fim, int * linha, int * coluna){
     static char
         teve_token = 'f';
     static int
-        e = 0;
+        e = 0,
+        linha = 1,
+        coluna = 1;
     
     saida = (char**) malloc(2*sizeof(char));
     saida[0] = (char*) calloc(20, sizeof(char));
@@ -364,8 +366,8 @@ char ** token(char * entrada, char * fim, int * linha, int * coluna){
                     }
                     continua = 'v';
                     estado = 0;
-                    *coluna = 0;
-                    *linha = *linha + 1;
+                    coluna = 0;
+                    linha = linha + 1;
                 }
                 else{
                     if(e >= strlen(entrada)){
@@ -900,7 +902,7 @@ char ** token(char * entrada, char * fim, int * linha, int * coluna){
         }
         
         if(continua == 'v'){
-            *coluna = *coluna + 1;
+            coluna = coluna + 1;
         }
         
         if((estado != 0)&&(estado != 2)){
@@ -925,7 +927,10 @@ char ** token(char * entrada, char * fim, int * linha, int * coluna){
     
     if(*fim == 'v'){
         if(saida[0] == "!ERRO!"){
-            *fim = 'e';
+            sprintf(saida[1], "Erro lexico na linha %d, coluna %d.", linha, coluna);
+        }
+        else{
+            saida[1] = "Analise lexica completada com sucesso.";
         }
         teve_token = 'f';
     }
@@ -939,9 +944,6 @@ char * analise_lexica(char * entrada){
         **recebe,
         * saida,
         * fim;
-    int
-        * linha,
-        * coluna;
     
     recebe = (char**) malloc(2*sizeof(char));
     recebe[0] = (char*) calloc(20, sizeof(char));
@@ -950,29 +952,20 @@ char * analise_lexica(char * entrada){
     
     saida  = (char*) calloc(1000, sizeof(char));
     fim    = (char*) calloc(   1, sizeof(char));
-    linha  =  (int*) calloc(   1, sizeof(int));
-    coluna =  (int*) calloc(   1, sizeof(int));
     
     *fim = 'f';
-    *linha = 1;
-    *coluna = 1;
     
     while(*fim == 'f'){
         /* Vai concatenando os tokens */
-        recebe = token(entrada, fim, linha, coluna);
-        sprintf(saida, "%s%s", saida, recebe[0]/*, recebe[1]*/);
+        recebe = token(entrada, fim);
+        sprintf(saida, "%s%s", saida, recebe[0]);
     }
     
-    if(*fim == 'v'){
-        sprintf(saida, "%s\n\nAnalise lexica completada com sucesso.\n", saida);
+    if(strlen(entrada) > 0){
+        sprintf(saida, "%s\n\n%s\n", saida, recebe[1]);
     }
-    else{ // *fim == 'e'
-        if(strlen(entrada) > 0){
-            sprintf(saida, "%s\n\n[Erro lexico na linha %d, coluna %d]\n", saida, *linha, *coluna);
-        }
-        else{
-            sprintf(saida, "%s\n\n[Erro sintatico na linha 1, coluna 1]\n", saida);
-        }
+    else{
+        sprintf(saida, "%s\n\n[Erro sintatico na linha 1, coluna 1]\n", saida);
     }
     
     free(fim);
