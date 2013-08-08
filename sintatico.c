@@ -52,15 +52,41 @@ int BLOCOM(char * entrada){
 }
 
 int DEC(char * entrada){
-    return 1;
+    if(LISTAID(entrada)){
+        if(!strcmp(token(entrada)[0], "[DOISPT]")){
+            if(TIPO(entrada)){
+                if(!strcmp(token(entrada)[0], "[PTVIR]")){
+                    return 1;
+                }
+            }
+        }
+    }
+    return 0;
 }
 
 int LISTAID(char * entrada){
-    return 1;
+    if(!strcmp(token(entrada)[0], "[ID]")){
+        if(!strcmp(token(entrada)[0], "[VIRG]")){
+            if(LISTAID(entrada)){
+                return 1;
+            }
+            else{
+                return 0;
+            }
+        }
+        else{
+            return 1;
+        }
+    }
+    return 0;
 }
 
 int TIPO(char * entrada){
-    return 1;
+    if(!strcmp(token(entrada)[0], "[REAL]"))
+        return 1;
+    if(!strcmp(token(entrada)[0], "[BOOLEAN]"))
+        return 1;
+    return 0;
 }
 
 int LISTACOM(char * entrada){
