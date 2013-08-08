@@ -36,7 +36,15 @@ char * START(char * entrada){
 }
 
 int LISTADEC(char * entrada){
-    return 1;
+    if(DEC(entrada)){
+        if(LISTADEC(entrada)){
+            return 1;
+        }
+        return 1;
+    }
+    else{
+        return 0;
+    }
 }
 
 int BLOCOM(char * entrada){

@@ -951,7 +951,8 @@ char ** token(char * entrada/*, char * fim*/){
         coluna = 1;
         linha = 0;
     }
-        printf(" %d ", e);
+    
+    //printf(" %d ", e);
     
     return saida;
 }
