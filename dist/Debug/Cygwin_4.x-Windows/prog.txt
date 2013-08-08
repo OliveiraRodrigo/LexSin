@@ -2,7 +2,7 @@ program teste;
 
 var
 x, y : real;
-qwerty boolean;
+qwerty : boolean;
 
 begin
 
@@ -16,7 +16,7 @@ begin
       end
   else
       begin
-        qwerty := true
+        qwerty := true;
       end
 
 end

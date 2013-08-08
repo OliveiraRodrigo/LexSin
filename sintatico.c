@@ -18,11 +18,11 @@ char * START(char * entrada){
     fim    = (char*) calloc(   1, sizeof(char));
     
     *fim = 'f';
-
-    if(!strcmp(token(entrada, fim)[0], "[PROGRAM]")){
-        if(!strcmp(token(entrada, fim)[0], "[ID]")){
-            if(!strcmp(token(entrada, fim)[0], "[PTVIR]")){
-                if(!strcmp(token(entrada, fim)[0], "[VAR]")){
+    
+    if(!strcmp(token(entrada)[0], "[PROGRAM]")){
+        if(!strcmp(token(entrada)[0], "[ID]")){
+            if(!strcmp(token(entrada)[0], "[PTVIR]")){
+                if(!strcmp(token(entrada)[0], "[VAR]")){
                     if(LISTADEC(entrada)){
                         if(BLOCOM(entrada)){
                             return "OK.";
