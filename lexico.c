@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "lexico.h"
 
 int conta_caracteres(FILE *arquivo){
@@ -156,10 +157,9 @@ char busca_caracter(char caracter, int ini, int fim){
     
     vocabulario = (char*) calloc(100, sizeof(char));
 
-    vocabulario = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789.+-*/<>():=,;#";
-    vocabulario[77] = '\0';
+    strcpy(vocabulario,"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789.+-*/<>():=,;#");
     
-    for(ini; ini <= fim; ini++){
+    for(ini=ini; ini <= fim; ini++){
         if(caracter == vocabulario[ini]){
             return 'v';
         }
@@ -203,6 +203,7 @@ char ** token(char * entrada/*, char * fim*/){
         **saida,
         continua = 'v';
     int
+        i,
         estado = 0;
     //static char
         //teve_token = 'f';
@@ -923,18 +924,20 @@ char ** token(char * entrada/*, char * fim*/){
         }
     }
     
-    if(saida[0] == "[ID]"){
+    if(!strcmp(saida[0],"[ID]")){
         if(reservada(saida[1])){
             saida[0] = (char*) calloc(20, sizeof(char));
-            // Nao sei pq tem q alocar de novo. Mas tem q!
             sprintf(saida[0], "[%s]", saida[1]);
-            strupr(saida[0]);
+            for(i=0; i<strlen(saida[0]); i++){
+                saida[0][i] = toupper(saida[0][i]);
+            }
             saida[1] = "";
         }
     }
-    
+
     //if(*fim == 'v'){
-        if(saida[0] == "!ERRO!"){
+        if(!strcmp(saida[0],"!ERRO!")){
+            saida[1] = (char*) calloc(100, sizeof(char));
             sprintf(saida[1], "Erro lexico na linha %d, coluna %d.", linha, coluna);
             e = 0;
             coluna = 1;
@@ -946,7 +949,7 @@ char ** token(char * entrada/*, char * fim*/){
         //teve_token = 'f';
     //}
     
-    if(saida[0] == ""){
+    if(!strcmp(saida[0], "")){
         e = 0;
         coluna = 1;
         linha = 0;
@@ -978,7 +981,7 @@ char * analise_lexica(char * entrada){
         recebe = token(entrada/*, fim*/);
         sprintf(saida, "%s%s", saida, recebe[0]);
         /* Vai concatenando os tokens */
-    } while(recebe[0] != "" && recebe[0] != "!ERRO!"/**fim == 'f'*/);
+    } while(strcmp(recebe[0],"") && strcmp(recebe[0],"!ERRO!")/**fim == 'f'*/);
     
     sprintf(saida, "%s\n\n%s\n", saida, recebe[1]);
     

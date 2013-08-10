@@ -1,5 +1,0 @@
-{comentario de várias
-linhas
-aqui}program <= (x + 15) - 0.4/y//comentário
-//comentario de uma linha
-normal and 5 div qwe*3.000yyy

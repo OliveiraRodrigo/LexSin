@@ -11,13 +11,6 @@
 #include "lexico.h"
 
 char * START(char * entrada){
-
-    char
-        * fim;
-    
-    fim    = (char*) calloc(   1, sizeof(char));
-    
-    *fim = 'f';
     
     if(!strcmp(token(entrada)[0], "[PROGRAM]")){
         if(!strcmp(token(entrada)[0], "[ID]")){
@@ -36,15 +29,7 @@ char * START(char * entrada){
 }
 
 int LISTADEC(char * entrada){
-    if(DEC(entrada)){
-        if(LISTADEC(entrada)){
-            return 1;
-        }
-        return 1;
-    }
-    else{
-        return 0;
-    }
+    return 1;
 }
 
 int BLOCOM(char * entrada){
@@ -52,16 +37,7 @@ int BLOCOM(char * entrada){
 }
 
 int DEC(char * entrada){
-    if(LISTAID(entrada)){
-        if(!strcmp(token(entrada)[0], "[DOISPT]")){
-            if(TIPO(entrada)){
-                if(!strcmp(token(entrada)[0], "[PTVIR]")){
-                    return 1;
-                }
-            }
-        }
-    }
-    return 0;
+    return 1;
 }
 
 int LISTAID(char * entrada){
