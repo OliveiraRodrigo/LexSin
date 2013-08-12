@@ -12,12 +12,24 @@
 
 char * START(char * entrada){
     
-    if(!strcmp(token(entrada)[0], "[PROGRAM]")){
-        if(!strcmp(token(entrada)[0], "[ID]")){
-            if(!strcmp(token(entrada)[0], "[PTVIR]")){
-                if(!strcmp(token(entrada)[0], "[VAR]")){
-                    if(LISTADEC(entrada)){
-                        if(BLOCOM(entrada)){
+    char * tk = (char*) calloc(100, sizeof(char));
+    char * saida = (char*) calloc(200, sizeof(char));
+    
+    tk = token(entrada)[0];
+    if(!strcmp(tk, "[PROGRAM]")){
+        
+        tk = token(entrada)[0];
+        if(!strcmp(tk, "[ID]")){
+            
+            tk = token(entrada)[0];
+            if(!strcmp(tk, "[PTVIR]")){
+                
+                tk = token(entrada)[0];
+                if(!strcmp(tk, "[VAR]")){
+                    
+                    if(LISTADEC(tk)){
+                        
+                        if(BLOCOM(tk)){
                             return "OK.";
                         }
                     }
@@ -25,7 +37,8 @@ char * START(char * entrada){
             }
         }
     }
-    return "not ok";
+    sprintf(saida,"Erro sintatico na linha %d, coluna %d.", getLinha(-1), getColuna(-1));
+    return saida; //[PROGRAM]
 }
 
 int LISTADEC(char * entrada){

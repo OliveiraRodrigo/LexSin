@@ -208,15 +208,22 @@ char ** token(char * entrada/*, char * fim*/){
     //static char
         //teve_token = 'f';
     static int
-        e = 0,
-        linha = 1,
-        coluna = 1;
+        lock = 0,
+        e = 0;
+        //linha = 1,
+        //coluna = 1;
     
     saida = (char**) malloc(2*sizeof(char));
     saida[0] = (char*) calloc(20, sizeof(char));
     saida[1] = (char*) calloc(200, sizeof(char));
     saida[0] = "";
     //*fim = 'f';
+    
+    if(!lock){
+        getLinha(1);
+        getColuna(1);
+        lock = 1;
+    }
     
     if(strlen(entrada) == 0){
         saida[0] = "";
@@ -370,8 +377,10 @@ char ** token(char * entrada/*, char * fim*/){
                     }
                     continua = 'v';
                     estado = 0;
-                    coluna = 0;
-                    linha++;
+                    //coluna = 0;
+                    getColuna(0);
+                    //linha++;
+                    getLinha(getLinha(-1)+1);
                 }
                 else{
                     if(e >= strlen(entrada)){
@@ -911,7 +920,8 @@ char ** token(char * entrada/*, char * fim*/){
         }
         
         if(continua == 'v'){
-            coluna++;
+            //coluna++;
+            getColuna(getColuna(-1)+1);
         }
         
         if((estado != 0)&&(estado != 2)){
@@ -938,10 +948,13 @@ char ** token(char * entrada/*, char * fim*/){
     //if(*fim == 'v'){
         if(!strcmp(saida[0],"!ERRO!")){
             saida[1] = (char*) calloc(100, sizeof(char));
-            sprintf(saida[1], "Erro lexico na linha %d, coluna %d.", linha, coluna);
+            sprintf(saida[1], "Erro lexico na linha %d, coluna %d.", getLinha(-1), getColuna(-1));
             e = 0;
-            coluna = 1;
-            linha = 0;
+            //coluna = 1;
+            //getColuna(1);
+            //linha = 0;
+            //getLinha(0);
+            lock = 0;
         }
         //else{
         //    saida[1] = "Analise lexica completada com sucesso.";
@@ -951,8 +964,11 @@ char ** token(char * entrada/*, char * fim*/){
     
     if(!strcmp(saida[0], "")){
         e = 0;
-        coluna = 1;
-        linha = 0;
+        //coluna = 1;
+        //getColuna(1);
+        //linha = 0;
+        //getLinha(0);
+        lock = 0;
     }
     
     //printf(" %d ", e);
@@ -988,4 +1004,22 @@ char * analise_lexica(char * entrada){
     free(fim);
     
     return saida;
+}
+
+int getLinha(int in){
+    
+    static int out;
+    
+    if(in >= 0)
+        out = in;
+    return out;
+}
+
+int getColuna(int in){
+    
+    static int out;
+    
+    if(in >= 0)
+        out = in;
+    return out;
 }

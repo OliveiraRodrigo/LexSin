@@ -48,3 +48,7 @@ char ** token(char * entrada/*, char * fim*//*, int * linha, int * coluna*/);
  * Retorna tambem uma mensagem de sucesso ou de erro,
  * indicando, neste ultimo caso, linha e coluna em que ocorreu. */
 char * analise_lexica(char * entrada);
+
+int getLinha(int in);
+
+int getColuna(int in);
