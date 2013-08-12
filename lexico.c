@@ -149,7 +149,31 @@ void limpa_comentarios(char * entrada, char * saida){
     }
     saida[i] = '\0';
 }
-
+/*
+void limpa_espacos(char * entrada, char * saida){
+    
+    int
+        i = 0,
+        j = 0,
+        tamanho;
+    
+    tamanho = strlen(entrada);
+    
+    while(i+1 < tamanho){
+        while((entrada[i] == ' ') && (entrada[i+1] == ' ')){
+            if(i < tamanho)
+                i++;
+        }
+        if(i < tamanho){
+            saida[j] = entrada[i];
+            printf("-%c-", saida[j]);
+            i++;
+            j++;
+        }
+    }
+    saida[j] = '\0';
+}
+*/
 char busca_caracter(char caracter, int ini, int fim){
     
     char
@@ -220,9 +244,9 @@ char ** token(char * entrada/*, char * fim*/){
     //*fim = 'f';
     
     if(!lock){
+        lock = 1;
         getLinha(1);
         getColuna(1);
-        lock = 1;
     }
     
     if(strlen(entrada) == 0){
@@ -388,7 +412,7 @@ char ** token(char * entrada/*, char * fim*/){
                             saida[0] = "";
                         //}
                             saida[1] = "";
-                   }
+                    }
                     else{
                         saida[0] = "!ERRO!";
                         saida[1] = " ";
@@ -929,7 +953,7 @@ char ** token(char * entrada/*, char * fim*/){
             //teve_token = 'v';
         }
         
-        if(e >= strlen(entrada)){
+        if(e >= strlen(entrada)){       
             //*fim = 'v';
         }
     }
@@ -999,7 +1023,7 @@ char * analise_lexica(char * entrada){
         /* Vai concatenando os tokens */
     } while(strcmp(recebe[0],"") && strcmp(recebe[0],"!ERRO!")/**fim == 'f'*/);
     
-    sprintf(saida, "%s\n\n%s\n", saida, recebe[1]);
+    //sprintf(saida, "%s\n\n%s\n", saida, recebe[1]);
     
     free(fim);
     
@@ -1012,6 +1036,7 @@ int getLinha(int in){
     
     if(in >= 0)
         out = in;
+    
     return out;
 }
 
@@ -1021,5 +1046,6 @@ int getColuna(int in){
     
     if(in >= 0)
         out = in;
+    
     return out;
 }

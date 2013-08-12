@@ -90,6 +90,7 @@ int main(int argc, char** argv) {
             
 /* Limpa os comentarios da string */
             limpa_comentarios(string, clean_string);
+            //limpa_espacos(clean_string, string);
             
 /* Ao trabalho! */
             printf("\n== Arquivo %d ==========================\n", arg);

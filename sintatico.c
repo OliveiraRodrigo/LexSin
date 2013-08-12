@@ -14,16 +14,25 @@ char * START(char * entrada){
     
     char * tk = (char*) calloc(100, sizeof(char));
     char * saida = (char*) calloc(200, sizeof(char));
+    int linha, coluna;
     
+    linha = 1;
+    coluna = 1;
     tk = token(entrada)[0];
     if(!strcmp(tk, "[PROGRAM]")){
         
+        linha = getLinha(-1);
+        coluna = getColuna(-1)+1;
         tk = token(entrada)[0];
         if(!strcmp(tk, "[ID]")){
             
+            linha = getLinha(-1);
+            coluna = getColuna(-1)+1;
             tk = token(entrada)[0];
             if(!strcmp(tk, "[PTVIR]")){
                 
+                linha = getLinha(-1);
+                coluna = getColuna(-1)+1;
                 tk = token(entrada)[0];
                 if(!strcmp(tk, "[VAR]")){
                     
@@ -37,8 +46,14 @@ char * START(char * entrada){
             }
         }
     }
-    sprintf(saida,"Erro sintatico na linha %d, coluna %d.", getLinha(-1), getColuna(-1));
-    return saida; //[PROGRAM]
+    if(!strcmp(tk, "!ERRO!")){ //[PROGRAM]
+        sprintf(saida,"Erro lexico na linha %d, coluna %d.", getLinha(-1), getColuna(-1));
+        return saida;
+    }
+    else{
+        sprintf(saida,"Erro sintatico na linha %d, coluna %d.", linha, coluna);
+        return saida;
+    }
 }
 
 int LISTADEC(char * entrada){
