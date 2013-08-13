@@ -23,32 +23,32 @@ char * START(char * entrada);
 
 int LISTADEC(char * entrada);
 
-int BLOCOM(char * entrada);
-
 int DEC(char * entrada);
 
 int LISTAID(char * entrada);
 
 int TIPO(char * entrada);
 
+int BLOCOM(char * entrada);
+
 int LISTACOM(char * entrada);
 
 int COM(char * entrada);
+
+int BLIF(char * entrada);
+
+int BLELSE(char * entrada);
 
 int LISTAEXP(char * entrada);
 
 int EXP(char * entrada);
 
-int IF(char * entrada);
+int OP(char * entrada);
 
-int ELSE(char * entrada);
+int OP1(char * entrada);
 
-int E1(char * entrada);
+int OP2(char * entrada);
 
-int E2(char * entrada);
+int OP3(char * entrada);
 
-int E3(char * entrada);
-
-int E4(char * entrada);
-
-int UNIT(char * entrada);
+int UNI(char * entrada);

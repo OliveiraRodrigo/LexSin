@@ -22,31 +22,31 @@ char * START(char * entrada){
     if(!strcmp(tk, "[PROGRAM]")){
         
         linha = getLinha(-1);
-        coluna = getColuna(-1)+1;
+        coluna = getColuna(-1);
         tk = token(entrada)[0];
         if(!strcmp(tk, "[ID]")){
             
             linha = getLinha(-1);
-            coluna = getColuna(-1)+1;
+            coluna = getColuna(-1);
             tk = token(entrada)[0];
             if(!strcmp(tk, "[PTVIR]")){
                 
                 linha = getLinha(-1);
-                coluna = getColuna(-1)+1;
+                coluna = getColuna(-1);
                 tk = token(entrada)[0];
                 if(!strcmp(tk, "[VAR]")){
                     
                     if(LISTADEC(tk)){
                         
                         if(BLOCOM(tk)){
-                            return "OK.";
+                            return "Analise completada com sucesso.";
                         }
                     }
                 }
             }
         }
-    }
-    if(!strcmp(tk, "!ERRO!")){ //[PROGRAM]
+    } //[PROGRAM]
+    if(!strcmp(tk, "!ERRO!")){
         sprintf(saida,"Erro lexico na linha %d, coluna %d.", getLinha(-1), getColuna(-1));
         return saida;
     }
@@ -57,10 +57,6 @@ char * START(char * entrada){
 }
 
 int LISTADEC(char * entrada){
-    return 1;
-}
-
-int BLOCOM(char * entrada){
     return 1;
 }
 
@@ -93,11 +89,23 @@ int TIPO(char * entrada){
     return 0;
 }
 
+int BLOCOM(char * entrada){
+    return 1;
+}
+
 int LISTACOM(char * entrada){
     return 1;
 }
 
 int COM(char * entrada){
+    return 1;
+}
+
+int BLIF(char * entrada){
+    return 1;
+}
+
+int BLELSE(char * entrada){
     return 1;
 }
 
@@ -109,30 +117,22 @@ int EXP(char * entrada){
     return 1;
 }
 
-int IF(char * entrada){
+int OP(char * entrada){
     return 1;
 }
 
-int ELSE(char * entrada){
+int OP1(char * entrada){
     return 1;
 }
 
-int E1(char * entrada){
+int OP2(char * entrada){
     return 1;
 }
 
-int E2(char * entrada){
+int OP3(char * entrada){
     return 1;
 }
 
-int E3(char * entrada){
-    return 1;
-}
-
-int E4(char * entrada){
-    return 1;
-}
-
-int UNIT(char * entrada){
+int UNI(char * entrada){
     return 1;
 }

@@ -221,7 +221,7 @@ int reservada(char * palavra){
     return 0;
 }
 
-char ** token(char * entrada/*, char * fim*/){
+char ** token(char * entrada){
     
     char
         **saida,
@@ -229,19 +229,14 @@ char ** token(char * entrada/*, char * fim*/){
     int
         i,
         estado = 0;
-    //static char
-        //teve_token = 'f';
     static int
         lock = 0,
         e = 0;
-        //linha = 1,
-        //coluna = 1;
     
     saida = (char**) malloc(2*sizeof(char));
     saida[0] = (char*) calloc(20, sizeof(char));
     saida[1] = (char*) calloc(200, sizeof(char));
     saida[0] = "";
-    //*fim = 'f';
     
     if(!lock){
         lock = 1;
@@ -253,8 +248,6 @@ char ** token(char * entrada/*, char * fim*/){
         saida[0] = "";
         saida[1] = "";
         return saida;
-        //continua = 'f';
-        //*fim = 'v';
     }
     
     while(continua == 'v'){
@@ -401,24 +394,19 @@ char ** token(char * entrada/*, char * fim*/){
                     }
                     continua = 'v';
                     estado = 0;
-                    //coluna = 0;
                     getColuna(0);
-                    //linha++;
                     getLinha(getLinha(-1)+1);
                 }
                 else{
                     if(e >= strlen(entrada)){
-                        //if(teve_token == 'v'){
-                            saida[0] = "";
-                        //}
-                            saida[1] = "";
+                        saida[0] = "";
+                        saida[1] = "";
                     }
                     else{
                         saida[0] = "!ERRO!";
                         saida[1] = " ";
                     }
                     continua = 'f';
-                    //*fim = 'v';
                 }}}}}}}}}}}}}}}}}}}}}
                 }
                 break;
@@ -453,7 +441,6 @@ char ** token(char * entrada/*, char * fim*/){
                 }
                 else{
                     continua = 'f';
-                    //*fim = 'v';
                 }
                 break;
             case 3:
@@ -944,23 +931,7 @@ char ** token(char * entrada/*, char * fim*/){
         }
         
         if(continua == 'v'){
-            //coluna++;
             getColuna(getColuna(-1)+1);
-        }
-        else{
-            while((entrada[e+1] == ' ') || (entrada[e+1] == 9)){ //9: TAB
-               e++;
-               getColuna(getColuna(-1)+1);
-            }
-        }
-        
-        if((estado != 0)&&(estado != 2)){
-        /* 0 e 2 sao os estado NAO-FINAIS. */
-            //teve_token = 'v';
-        }
-        
-        if(e >= strlen(entrada)){       
-            //*fim = 'v';
         }
     }
     
@@ -975,32 +946,38 @@ char ** token(char * entrada/*, char * fim*/){
         }
     }
 
-    //if(*fim == 'v'){
-        if(!strcmp(saida[0],"!ERRO!")){
-            saida[1] = (char*) calloc(100, sizeof(char));
-            sprintf(saida[1], "Erro lexico na linha %d, coluna %d.", getLinha(-1), getColuna(-1));
-            e = 0;
-            //coluna = 1;
-            //getColuna(1);
-            //linha = 0;
-            //getLinha(0);
-            lock = 0;
-        }
-        //else{
-        //    saida[1] = "Analise lexica completada com sucesso.";
-        //}
-        //teve_token = 'f';
-    //}
-    
-    if(!strcmp(saida[0], "")){
+    if(!strcmp(saida[0],"!ERRO!")){
+        saida[1] = (char*) calloc(100, sizeof(char));
+        sprintf(saida[1], "Erro lexico na linha %d, coluna %d.", getLinha(-1), getColuna(-1));
         e = 0;
-        //coluna = 1;
-        //getColuna(1);
-        //linha = 0;
-        //getLinha(0);
         lock = 0;
     }
     
+    if(!strcmp(saida[0], "")){
+        e = 0;
+        lock = 0;
+    }
+    
+    while((entrada[e] == ' ') || ((entrada[e]>8) && (entrada[e]<14))){
+        //ENTER ou espaco//
+        //Em ANSI o ENTER eh 13 depois 10
+        if((entrada[e] == ' ') || (entrada[e] == 9)){ //9: TAB
+            e++;
+            getColuna(getColuna(-1)+1);
+        }
+        if(entrada[e] == 13){
+            e++;
+            getColuna(1);
+        }
+        if(entrada[e] == 10){
+            e++;
+            getLinha(getLinha(-1)+1);
+        }
+        if(entrada[e] == 11 || entrada[e] == 12){
+            e++;
+            getLinha(getLinha(-1)+1);
+        }
+    }
     //printf(" %d ", e);
     
     return saida;
