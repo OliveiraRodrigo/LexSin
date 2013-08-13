@@ -1,4 +1,4 @@
-program   1 teste;
+program teste;
 var
 x, y : real;
 qwerty : boolean;

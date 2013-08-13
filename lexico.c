@@ -947,6 +947,12 @@ char ** token(char * entrada/*, char * fim*/){
             //coluna++;
             getColuna(getColuna(-1)+1);
         }
+        else{
+            while((entrada[e+1] == ' ') || (entrada[e+1] == 9)){ //9: TAB
+               e++;
+               getColuna(getColuna(-1)+1);
+            }
+        }
         
         if((estado != 0)&&(estado != 2)){
         /* 0 e 2 sao os estado NAO-FINAIS. */
