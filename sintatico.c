@@ -10,11 +10,16 @@
 #include <string.h>
 #include "lexico.h"
 
+char * tk;
+char * temp_tk;
+int linha, coluna;
+int temp_linha;
+int temp_coluna;
+
 char * START(char * entrada){
     
-    char * tk = (char*) calloc(100, sizeof(char));
+    tk = (char*) calloc(100, sizeof(char));
     char * saida = (char*) calloc(200, sizeof(char));
-    int linha, coluna;
     
     linha = 1;
     coluna = 1;
@@ -36,16 +41,16 @@ char * START(char * entrada){
                 tk = token(entrada)[0];
                 if(!strcmp(tk, "[VAR]")){
                     
-                    if(LISTADEC(tk)){
+                    if(LISTADEC(entrada)){
                         
-                        if(BLOCOM(tk)){
+                        if(BLOCOM(entrada)){
                             return "Analise completada com sucesso.";
                         }
                     }
                 }
             }
         }
-    } //[PROGRAM]
+    }
     if(!strcmp(tk, "!ERRO!")){
         sprintf(saida,"Erro lexico na linha %d, coluna %d.", getLinha(-1), getColuna(-1));
         return saida;
@@ -57,24 +62,101 @@ char * START(char * entrada){
 }
 
 int LISTADEC(char * entrada){
-    return 1;
+
+    tk = (char*) calloc(100, sizeof(char));
+    
+    linha = getLinha(-1);
+    coluna = getColuna(-1);
+    tk = token(entrada)[0];
+    if(!strcmp(tk, "[ID]")){
+        
+        if(LISTAID(entrada)){
+            
+            linha = getLinha(-1);
+            coluna = getColuna(-1);
+            tk = token(entrada)[0];
+            if(!strcmp(tk, "[DOISPT]")){
+                
+                if(TIPO(entrada)){
+                    
+                    linha = getLinha(-1);
+                    coluna = getColuna(-1);
+                    tk = token(entrada)[0];
+                    if(!strcmp(tk, "[PTVIR]")){
+                        
+                        if(DEC(entrada)){
+                            return 1;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return 0;
 }
 
 int DEC(char * entrada){
-    return 1;
+    
+    tk = (char*) calloc(100, sizeof(char));
+    
+    linha = getLinha(-1);
+    coluna = getColuna(-1);
+    tk = token(entrada)[0];
+    if(!strcmp(tk, "[ID]")){
+        
+        if(LISTAID(entrada)){
+            
+            linha = getLinha(-1);
+            coluna = getColuna(-1);
+            tk = token(entrada)[0];
+            if(!strcmp(tk, "[DOISPT]")){
+                
+                if(TIPO(entrada)){
+                    
+                    linha = getLinha(-1);
+                    coluna = getColuna(-1);
+                    tk = token(entrada)[0];
+                    if(!strcmp(tk, "[PTVIR]")){
+                        
+                        if(DEC(entrada)){
+                            return 1;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if(BLOCOM(entrada)) //SERIA O "VAZIO"
+        return 1;
+    
+    return 0;
 }
 
 int LISTAID(char * entrada){
-    if(!strcmp(token(entrada)[0], "[ID]")){
-        if(!strcmp(token(entrada)[0], "[VIRG]")){
+    
+    tk = (char*) calloc(100, sizeof(char));
+    temp_tk = (char*) calloc(100, sizeof(char));
+    
+    temp_linha = getLinha(-1);
+    temp_coluna = getColuna(-1);
+    temp_tk = token(entrada)[0];
+    
+    linha = temp_linha;
+    coluna = temp_coluna;
+    tk = temp_tk;
+    if(!strcmp(tk, "[VIRG]")){
+        
+        linha = getLinha(-1);
+        coluna = getColuna(-1);
+        tk = token(entrada)[0];
+        if(!strcmp(tk, "[ID]")){
+        
             if(LISTAID(entrada)){
                 return 1;
             }
-            else{
-                return 0;
-            }
-        }
-        else{
+            linha = temp_linha;
+            coluna = temp_coluna;
+            tk = temp_tk;
             return 1;
         }
     }
@@ -82,10 +164,18 @@ int LISTAID(char * entrada){
 }
 
 int TIPO(char * entrada){
-    if(!strcmp(token(entrada)[0], "[REAL]"))
+    
+    tk = (char*) calloc(100, sizeof(char));
+    
+    linha = getLinha(-1);
+    coluna = getColuna(-1);
+    tk = token(entrada)[0];
+    if(!strcmp(tk, "[REAL]"))
         return 1;
-    if(!strcmp(token(entrada)[0], "[BOOLEAN]"))
+
+    if(!strcmp(tk, "[BOOLEAN]"))
         return 1;
+    
     return 0;
 }
 
