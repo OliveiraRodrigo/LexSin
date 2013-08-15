@@ -72,9 +72,9 @@ int LISTADEC(char * entrada){
         
         if(LISTAID(entrada)){
             
-            linha = getLinha(-1);
-            coluna = getColuna(-1);
-            tk = token(entrada)[0];
+            //linha = getLinha(-1);
+            //coluna = getColuna(-1);
+            //tk = token(entrada)[0];
             if(!strcmp(tk, "[DOISPT]")){
                 
                 if(TIPO(entrada)){
@@ -159,6 +159,12 @@ int LISTAID(char * entrada){
             tk = temp_tk;
             return 1;
         }
+    }
+    if(!strcmp(tk, "[DOISPT]")){ //SERIA O "VAZIO"
+        return 1;
+    }
+    if(!strcmp(tk, "[FPAR]")){ //SERIA O "VAZIO"
+        return 1;
     }
     return 0;
 }
