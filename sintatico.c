@@ -11,15 +11,18 @@
 #include "lexico.h"
 
 char * tk;
-char * temp_tk;
+//char * temp_tk;
 int linha, coluna;
-int temp_linha;
-int temp_coluna;
+//int temp_linha;
+//int temp_coluna;
+int temqueler;
 
 char * START(char * entrada){
     
-    tk = (char*) calloc(100, sizeof(char));
     char * saida = (char*) calloc(200, sizeof(char));
+    
+    tk = (char*) calloc(100, sizeof(char));
+    temqueler = 1;
     
     linha = 1;
     coluna = 1;
@@ -43,11 +46,8 @@ char * START(char * entrada){
                     
                     if(LISTADEC(entrada)){
                         
-                        if(COM(entrada)){
-                            
-                            if(LISTACOM(entrada)){
-                                return "Analise completada com sucesso.";
-                            }
+                        if(BLOCOM(entrada)){
+                            return "Analise completada com sucesso.";
                         }
                     }
                 }
@@ -68,14 +68,22 @@ int LISTADEC(char * entrada){
 
     tk = (char*) calloc(100, sizeof(char));
     
-    linha = getLinha(-1);
-    coluna = getColuna(-1);
-    tk = token(entrada)[0];
+    if(temqueler){
+        linha = getLinha(-1);
+        coluna = getColuna(-1);
+        tk = token(entrada)[0];
+    }
+    temqueler = 1;
     if(!strcmp(tk, "[ID]")){
         
         if(LISTAID(entrada)){
             
-            //linha, coluna e tk vem do LISTAID( ).
+            if(temqueler){
+                linha = getLinha(-1);
+                coluna = getColuna(-1);
+                tk = token(entrada)[0];
+            }
+            temqueler = 1;
             if(!strcmp(tk, "[DOISPT]")){
                 
                 if(TIPO(entrada)){
@@ -100,14 +108,22 @@ int DEC(char * entrada){
     
     tk = (char*) calloc(100, sizeof(char));
     
-    linha = getLinha(-1);
-    coluna = getColuna(-1);
-    tk = token(entrada)[0];
+    if(temqueler){
+        linha = getLinha(-1);
+        coluna = getColuna(-1);
+        tk = token(entrada)[0];
+    }
+    temqueler = 1;
     if(!strcmp(tk, "[ID]")){
         
         if(LISTAID(entrada)){
             
-            //linha, coluna e tk vem do LISTAID( ).
+            if(temqueler){
+                linha = getLinha(-1);
+                coluna = getColuna(-1);
+                tk = token(entrada)[0];
+            }
+            temqueler = 1;
             if(!strcmp(tk, "[DOISPT]")){
                 
                 if(TIPO(entrada)){
@@ -126,8 +142,8 @@ int DEC(char * entrada){
         }
     }
     else{
-        if(!strcmp(tk, "[BEGIN]")) //SERIA O "VAZIO"
-            return 1;
+        temqueler = 0; //NAO, JA LEU
+        return 1;
     }
     
     return 0;
@@ -136,15 +152,13 @@ int DEC(char * entrada){
 int LISTAID(char * entrada){
     
     tk = (char*) calloc(100, sizeof(char));
-    temp_tk = (char*) calloc(100, sizeof(char));
     
-    temp_linha = getLinha(-1);
-    temp_coluna = getColuna(-1);
-    temp_tk = token(entrada)[0];
-    
-    linha = temp_linha;
-    coluna = temp_coluna;
-    tk = temp_tk;
+    if(temqueler){
+        linha = getLinha(-1);
+        coluna = getColuna(-1);
+        tk = token(entrada)[0];
+    }
+    temqueler = 1;
     if(!strcmp(tk, "[VIRG]")){
         
         linha = getLinha(-1);
@@ -155,16 +169,10 @@ int LISTAID(char * entrada){
             if(LISTAID(entrada)){
                 return 1;
             }
-            linha = temp_linha;
-            coluna = temp_coluna;
-            tk = temp_tk;
-            return 1;
         }
     }
-    if(!strcmp(tk, "[DOISPT]")){ //SERIA O "VAZIO"
-        return 1;
-    }
-    if(!strcmp(tk, "[FPAR]")){ //SERIA O "VAZIO"
+    else{
+        temqueler = 0; //NAO, JA LEU
         return 1;
     }
     return 0;
@@ -186,13 +194,55 @@ int TIPO(char * entrada){
     return 0;
 }
 
+int BLOCOM(char * entrada){
+    
+    tk = (char*) calloc(100, sizeof(char));
+    
+    if(temqueler){
+        linha = getLinha(-1);
+        coluna = getColuna(-1);
+        tk = token(entrada)[0];
+    }
+    temqueler = 1;
+    if(!strcmp(tk, "[BEGIN]")){
+        
+        if(COM(entrada)){
+            
+            if(LISTACOM(entrada)){
+                
+                if(FIMCOM(entrada)){
+                    
+                    if(temqueler){
+                        linha = getLinha(-1);
+                        coluna = getColuna(-1);
+                        tk = token(entrada)[0];
+                    }
+                    temqueler = 1;
+                    if(!strcmp(tk, "[END]")){
+                        return 1;
+                    }
+                }
+            }
+        }
+    }
+    else{
+        temqueler = 0;
+        return 1;
+    }
+    
+    return 0;
+}
+
 int COM(char * entrada){
     
     tk = (char*) calloc(100, sizeof(char));
     
-    linha = getLinha(-1);
-    coluna = getColuna(-1);
-    tk = token(entrada)[0];
+    if(temqueler){
+        linha = getLinha(-1);
+        coluna = getColuna(-1);
+        tk = token(entrada)[0];
+    }
+    temqueler = 1;
     if(!strcmp(tk, "[READ]")){
         
         linha = getLinha(-1);
@@ -207,7 +257,12 @@ int COM(char * entrada){
                 
                 if(LISTAID(entrada)){
                     
-                    //linha, coluna e tk vem do LISTAID( ).
+                    if(temqueler){
+                        linha = getLinha(-1);
+                        coluna = getColuna(-1);
+                        tk = token(entrada)[0];
+                    }
+                    temqueler = 1;
                     if(!strcmp(tk, "[FPAR]")){
                         return 1;
                     }
@@ -265,34 +320,14 @@ int LISTACOM(char * entrada){
     
     tk = (char*) calloc(100, sizeof(char));
     
-    linha = getLinha(-1);
-    coluna = getColuna(-1);
-    tk = token(entrada)[0];
+    if(temqueler){
+        linha = getLinha(-1);
+        coluna = getColuna(-1);
+        tk = token(entrada)[0];
+    }
+    temqueler = 1;
     if(!strcmp(tk, "[PTVIR]")){
         
-        if(LCOM(entrada)){
-            return 1;
-        }
-    }
-    else{
-        if(!strcmp(tk, "[END]")){
-            return 1;
-        }
-    }
-    return 0;
-}
-
-int LCOM(char * entrada){
-    
-    tk = (char*) calloc(100, sizeof(char));
-    
-    linha = getLinha(-1);
-    coluna = getColuna(-1);
-    tk = token(entrada)[0];
-    if(!strcmp(tk, "[END]")){
-        return 1;
-    }
-    else{
         if(COM(entrada)){
             
             if(LISTACOM(entrada)){
@@ -300,6 +335,32 @@ int LCOM(char * entrada){
             }
         }
     }
+    else{
+        temqueler = 0;
+        return 1;
+    }
+    
+    return 0;
+}
+
+int FIMCOM(char * entrada){
+    
+    tk = (char*) calloc(100, sizeof(char));
+    
+    if(temqueler){
+        linha = getLinha(-1);
+        coluna = getColuna(-1);
+        tk = token(entrada)[0];
+    }
+    temqueler = 1;
+    if(!strcmp(tk, "[PTVIR]")){
+        return 1;
+    }
+    else{
+        temqueler = 0;
+        return 1;
+    }
+    
     return 0;
 }
 
@@ -338,3 +399,16 @@ int OP3(char * entrada){
 int UNI(char * entrada){
     return 1;
 }
+
+/*
+char * letoken(char * entrada, char * temqueler, int * linha, int * coluna){
+    
+    char * tk = (char*) calloc(100, sizeof(char));
+    
+    if(*temqueler){
+        *linha = getLinha(-1);
+        *coluna = getColuna(-1);
+        tk = token(entrada)[0];
+    }
+    return tk;
+}*/
