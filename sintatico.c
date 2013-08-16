@@ -43,8 +43,11 @@ char * START(char * entrada){
                     
                     if(LISTADEC(entrada)){
                         
-                        if(BLOCOM(entrada)){
-                            return "Analise completada com sucesso.";
+                        if(COM(entrada)){
+                            
+                            if(LISTACOM(entrada)){
+                                return "Analise completada com sucesso.";
+                            }
                         }
                     }
                 }
@@ -72,9 +75,7 @@ int LISTADEC(char * entrada){
         
         if(LISTAID(entrada)){
             
-            //linha = getLinha(-1);
-            //coluna = getColuna(-1);
-            //tk = token(entrada)[0];
+            //linha, coluna e tk vem do LISTAID( ).
             if(!strcmp(tk, "[DOISPT]")){
                 
                 if(TIPO(entrada)){
@@ -106,9 +107,7 @@ int DEC(char * entrada){
         
         if(LISTAID(entrada)){
             
-            linha = getLinha(-1);
-            coluna = getColuna(-1);
-            tk = token(entrada)[0];
+            //linha, coluna e tk vem do LISTAID( ).
             if(!strcmp(tk, "[DOISPT]")){
                 
                 if(TIPO(entrada)){
@@ -126,8 +125,10 @@ int DEC(char * entrada){
             }
         }
     }
-    if(BLOCOM(entrada)) //SERIA O "VAZIO"
-        return 1;
+    else{
+        if(!strcmp(tk, "[BEGIN]")) //SERIA O "VAZIO"
+            return 1;
+    }
     
     return 0;
 }
@@ -185,16 +186,121 @@ int TIPO(char * entrada){
     return 0;
 }
 
-int BLOCOM(char * entrada){
-    return 1;
+int COM(char * entrada){
+    
+    tk = (char*) calloc(100, sizeof(char));
+    
+    linha = getLinha(-1);
+    coluna = getColuna(-1);
+    tk = token(entrada)[0];
+    if(!strcmp(tk, "[READ]")){
+        
+        linha = getLinha(-1);
+        coluna = getColuna(-1);
+        tk = token(entrada)[0];
+        if(!strcmp(tk, "[APAR]")){
+            
+            linha = getLinha(-1);
+            coluna = getColuna(-1);
+            tk = token(entrada)[0];
+            if(!strcmp(tk, "[ID]")){
+                
+                if(LISTAID(entrada)){
+                    
+                    //linha, coluna e tk vem do LISTAID( ).
+                    if(!strcmp(tk, "[FPAR]")){
+                        return 1;
+                    }
+                }
+            }
+        }
+    }
+    else{
+        if(!strcmp(tk, "[WRITE]")){
+        
+            linha = getLinha(-1);
+            coluna = getColuna(-1);
+            tk = token(entrada)[0];
+            if(!strcmp(tk, "[APAR]")){
+                
+                if(EXP(entrada)){
+                    
+                    if(OP(entrada)){
+                        
+                        if(LISTAEXP(entrada)){
+                            return 1;
+                        }
+                    }
+                }
+                
+            }
+        }
+        else{
+            if(!strcmp(tk, "[ID]")){
+                
+                linha = getLinha(-1);
+                coluna = getColuna(-1);
+                tk = token(entrada)[0];
+                if(!strcmp(tk, "[ATRIB]")){
+                    
+                    if(EXP(entrada)){
+                    
+                        if(OP(entrada)){
+                            return 1;
+                        }
+                    }
+                }
+            }
+            else{
+                if(BLIF(entrada)){
+                    return 1;
+                }
+            }
+        }
+    }
+    return 0;
 }
 
 int LISTACOM(char * entrada){
-    return 1;
+    
+    tk = (char*) calloc(100, sizeof(char));
+    
+    linha = getLinha(-1);
+    coluna = getColuna(-1);
+    tk = token(entrada)[0];
+    if(!strcmp(tk, "[PTVIR]")){
+        
+        if(LCOM(entrada)){
+            return 1;
+        }
+    }
+    else{
+        if(!strcmp(tk, "[END]")){
+            return 1;
+        }
+    }
+    return 0;
 }
 
-int COM(char * entrada){
-    return 1;
+int LCOM(char * entrada){
+    
+    tk = (char*) calloc(100, sizeof(char));
+    
+    linha = getLinha(-1);
+    coluna = getColuna(-1);
+    tk = token(entrada)[0];
+    if(!strcmp(tk, "[END]")){
+        return 1;
+    }
+    else{
+        if(COM(entrada)){
+            
+            if(LISTACOM(entrada)){
+                return 1;
+            }
+        }
+    }
+    return 0;
 }
 
 int BLIF(char * entrada){

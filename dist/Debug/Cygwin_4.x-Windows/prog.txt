@@ -2,20 +2,21 @@ program teste;
 var
 x, y : real;
 qwerty : boolean;
+WTF : real;
 
 begin
 
-  read(x, qwerty);
+  read (x, qwerty);
 
   if y <= x
     then
       begin
         qwerty :=  false;
-        write(y < 22, x = 1);
+        write(y < 22, x = 1)
       end
   else
       begin
-        qwerty := true;
+        qwerty := true
       end
 
 end

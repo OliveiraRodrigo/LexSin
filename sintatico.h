@@ -29,11 +29,11 @@ int LISTAID(char * entrada);
 
 int TIPO(char * entrada);
 
-int BLOCOM(char * entrada);
+int COM(char * entrada);
 
 int LISTACOM(char * entrada);
 
-int COM(char * entrada);
+int LCOM(char * enrtada);
 
 int BLIF(char * entrada);
 
