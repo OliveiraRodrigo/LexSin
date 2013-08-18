@@ -10,13 +10,14 @@
 #include <string.h>
 #include "lexico.h"
 #include "sintatico.h"
-int i = 0;
+
 char * START(char * entrada){
     
     char * saida = (char*) calloc(200, sizeof(char));
     
     preLinha(1);
     preColuna(1);
+    temqueler(1);
     
     if(testaToken(entrada, "[PROGRAM]")){
         
@@ -517,7 +518,7 @@ int temqueler(int in){
 
 int preLinha(int in){
     
-    static int out;
+    static int out = 1;
     
     if(in >= 0)
         out = in;
@@ -527,7 +528,7 @@ int preLinha(int in){
 
 int preColuna(int in){
     
-    static int out;
+    static int out = 1;
     
     if(in >= 0)
         out = in;

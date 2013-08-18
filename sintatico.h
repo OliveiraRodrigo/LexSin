@@ -60,3 +60,7 @@ char * getToken(char * entrada);
 int testaToken(char * entrada, char * tk);
 
 int temqueler(int in);
+
+int preLinha(int in);
+
+int preColuna(int in);

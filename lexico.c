@@ -19,7 +19,7 @@ int conta_caracteres(FILE *arquivo){
         num_caracteres = 0;
     
     while((c = getc(arquivo)) != EOF){
-        //printf("%d ", c);
+        
         if(c != '\n'){  // O '\n' conta 2 caracteres (13 10).
             num_caracteres++;
         }
@@ -149,31 +149,7 @@ void limpa_comentarios(char * entrada, char * saida){
     }
     saida[i] = '\0';
 }
-/*
-void limpa_espacos(char * entrada, char * saida){
-    
-    int
-        i = 0,
-        j = 0,
-        tamanho;
-    
-    tamanho = strlen(entrada);
-    
-    while(i+1 < tamanho){
-        while((entrada[i] == ' ') && (entrada[i+1] == ' ')){
-            if(i < tamanho)
-                i++;
-        }
-        if(i < tamanho){
-            saida[j] = entrada[i];
-            printf("-%c-", saida[j]);
-            i++;
-            j++;
-        }
-    }
-    saida[j] = '\0';
-}
-*/
+
 char busca_caracter(char caracter, int ini, int fim){
     
     char
@@ -978,7 +954,6 @@ char ** token(char * entrada){
             getLinha(getLinha(-1)+1);
         }
     }
-    //printf(" %d ", e);
     
     return saida;
 }
@@ -987,8 +962,7 @@ char * analise_lexica(char * entrada){
     
     char
         **recebe,
-        * saida,
-        * fim;
+        * saida;
     
     recebe = (char**) malloc(2*sizeof(char));
     recebe[0] = (char*) calloc(20, sizeof(char));
@@ -996,26 +970,22 @@ char * analise_lexica(char * entrada){
     recebe[0] = "";
     
     saida  = (char*) calloc(1000, sizeof(char));
-    fim    = (char*) calloc(   1, sizeof(char));
-    
-    *fim = 'f';
     
     do{
-        recebe = token(entrada/*, fim*/);
+        recebe = token(entrada);
         sprintf(saida, "%s%s", saida, recebe[0]);
         /* Vai concatenando os tokens */
-    } while(strcmp(recebe[0],"") && strcmp(recebe[0],"!ERRO!")/**fim == 'f'*/);
+    } while(strcmp(recebe[0],"") && strcmp(recebe[0],"!ERRO!"));
     
-    //sprintf(saida, "%s\n\n%s\n", saida, recebe[1]);
-    
-    free(fim);
+    getLinha(1);
+    getColuna(1);
     
     return saida;
 }
 
 int getLinha(int in){
     
-    static int out;
+    static int out = 1;
     
     if(in >= 0)
         out = in;
@@ -1025,7 +995,7 @@ int getLinha(int in){
 
 int getColuna(int in){
     
-    static int out;
+    static int out = 1;
     
     if(in >= 0)
         out = in;
