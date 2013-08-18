@@ -2,10 +2,10 @@
 # Universidade Federal de Pelotas
 # Ciencia da Computacao
 # Linguagens Formais
-# Analisador Lexico de Expressoes em Pascal
+# Analisador Lexico e Sintatico de um Subconjunto da Linguagem Pascal
 # Rodrigo Acosta, Rodrigo Oliveira
 
-####################################################################
+#############################################################################
 
 compila_help: compila help
 
@@ -29,10 +29,10 @@ help:
 	@echo   Para executar:
 	@echo
 	@echo   No Windows digite: lexsin [arq_1] [arq_2] ... [arq_n]
-	@echo   Exemplo: lexsin entrada.txt vazio.txt b.txt
+	@echo   Exemplo: lexsin prog.txt vazio.txt teste.txt
 	@echo
 	@echo   No Linux digite: ./lexsin [arq_1] [arq_2] ... [arq_n]
-	@echo   Exemplo: ./lexsin entrada.txt vazio.txt b.txt
+	@echo   Exemplo: ./lexsin entrada.txt vazio.txt teste.txt
 	@echo  ..............................................................
 
 clear:

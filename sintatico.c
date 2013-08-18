@@ -15,6 +15,8 @@ char * START(char * entrada){
     
     char * saida = (char*) calloc(200, sizeof(char));
     
+    getLinha(1);
+    getColuna(1);
     preLinha(1);
     preColuna(1);
     temqueler(1);
@@ -28,6 +30,7 @@ char * START(char * entrada){
                 if(LISTADEC(entrada)){
                     
                     if(BLOCOM(entrada)){
+                        testaToken(entrada,""); // Zera para o proximo arquivo
                         return "Analise completada com sucesso.";
                     }
                 }

@@ -922,18 +922,6 @@ char ** token(char * entrada){
         }
     }
 
-    if(!strcmp(saida[0],"!ERRO!")){
-        saida[1] = (char*) calloc(100, sizeof(char));
-        sprintf(saida[1], "Erro lexico na linha %d, coluna %d.", getLinha(-1), getColuna(-1));
-        e = 0;
-        lock = 0;
-    }
-    
-    if(!strcmp(saida[0], "")){
-        e = 0;
-        lock = 0;
-    }
-    
     while((entrada[e] == ' ') || ((entrada[e]>8) && (entrada[e]<14))){
         //ENTER ou espaco//
         //Em ANSI o ENTER eh 13 depois 10
@@ -953,6 +941,11 @@ char ** token(char * entrada){
             e++;
             getLinha(getLinha(-1)+1);
         }
+    }
+    
+    if(!strcmp(saida[0], "") || !strcmp(saida[0], "!ERRO!")){
+        e = 0;
+        lock = 0;
     }
     
     return saida;
