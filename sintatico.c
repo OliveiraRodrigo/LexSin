@@ -9,92 +9,57 @@
 #include <stdlib.h>
 #include <string.h>
 #include "lexico.h"
-
-char * tk;
-//char * temp_tk;
-int linha, coluna;
-//int temp_linha;
-//int temp_coluna;
-int temqueler;
-
+#include "sintatico.h"
+int i = 0;
 char * START(char * entrada){
     
     char * saida = (char*) calloc(200, sizeof(char));
     
-    tk = (char*) calloc(100, sizeof(char));
-    temqueler = 1;
+    preLinha(1);
+    preColuna(1);
     
-    linha = 1;
-    coluna = 1;
-    tk = token(entrada)[0];
-    if(!strcmp(tk, "[PROGRAM]")){
+    if(testaToken(entrada, "[PROGRAM]")){
         
-        linha = getLinha(-1);
-        coluna = getColuna(-1);
-        tk = token(entrada)[0];
-        if(!strcmp(tk, "[ID]")){
+        if(testaToken(entrada, "[ID]")){
             
-            linha = getLinha(-1);
-            coluna = getColuna(-1);
-            tk = token(entrada)[0];
-            if(!strcmp(tk, "[PTVIR]")){
+            if(testaToken(entrada, "[PTVIR]")){
                 
-                linha = getLinha(-1);
-                coluna = getColuna(-1);
-                tk = token(entrada)[0];
-                if(!strcmp(tk, "[VAR]")){
+                if(LISTADEC(entrada)){
                     
-                    if(LISTADEC(entrada)){
-                        
-                        if(BLOCOM(entrada)){
-                            return "Analise completada com sucesso.";
-                        }
+                    if(BLOCOM(entrada)){
+                        return "Analise completada com sucesso.";
                     }
                 }
             }
         }
     }
-    if(!strcmp(tk, "!ERRO!")){
+    if(testaToken(entrada, "!ERRO!")){
         sprintf(saida,"Erro lexico na linha %d, coluna %d.", getLinha(-1), getColuna(-1));
         return saida;
     }
     else{
-        sprintf(saida,"Erro sintatico na linha %d, coluna %d.", linha, coluna);
+        sprintf(saida,"Erro sintatico na linha %d, coluna %d.", preLinha(-1), preColuna(-1));
         return saida;
     }
 }
 
 int LISTADEC(char * entrada){
-
-    tk = (char*) calloc(100, sizeof(char));
     
-    if(temqueler){
-        linha = getLinha(-1);
-        coluna = getColuna(-1);
-        tk = token(entrada)[0];
-    }
-    temqueler = 1;
-    if(!strcmp(tk, "[ID]")){
+    if(testaToken(entrada, "[VAR]")){
         
-        if(LISTAID(entrada)){
+        if(testaToken(entrada, "[ID]")){
             
-            if(temqueler){
-                linha = getLinha(-1);
-                coluna = getColuna(-1);
-                tk = token(entrada)[0];
-            }
-            temqueler = 1;
-            if(!strcmp(tk, "[DOISPT]")){
+            if(LISTAID(entrada)){
                 
-                if(TIPO(entrada)){
+                if(testaToken(entrada, "[DOISPT]")){
                     
-                    linha = getLinha(-1);
-                    coluna = getColuna(-1);
-                    tk = token(entrada)[0];
-                    if(!strcmp(tk, "[PTVIR]")){
+                    if(TIPO(entrada)){
                         
-                        if(DEC(entrada)){
-                            return 1;
+                        if(testaToken(entrada, "[PTVIR]")){
+                            
+                            if(DEC(entrada)){
+                                return 1;
+                            }
                         }
                     }
                 }
@@ -106,32 +71,15 @@ int LISTADEC(char * entrada){
 
 int DEC(char * entrada){
     
-    tk = (char*) calloc(100, sizeof(char));
-    
-    if(temqueler){
-        linha = getLinha(-1);
-        coluna = getColuna(-1);
-        tk = token(entrada)[0];
-    }
-    temqueler = 1;
-    if(!strcmp(tk, "[ID]")){
+    if(testaToken(entrada, "[ID]")){
         
         if(LISTAID(entrada)){
             
-            if(temqueler){
-                linha = getLinha(-1);
-                coluna = getColuna(-1);
-                tk = token(entrada)[0];
-            }
-            temqueler = 1;
-            if(!strcmp(tk, "[DOISPT]")){
+            if(testaToken(entrada, "[DOISPT]")){
                 
                 if(TIPO(entrada)){
                     
-                    linha = getLinha(-1);
-                    coluna = getColuna(-1);
-                    tk = token(entrada)[0];
-                    if(!strcmp(tk, "[PTVIR]")){
+                    if(testaToken(entrada, "[PTVIR]")){
                         
                         if(DEC(entrada)){
                             return 1;
@@ -142,37 +90,23 @@ int DEC(char * entrada){
         }
     }
     else{
-        temqueler = 0; //NAO, JA LEU
         return 1;
     }
-    
     return 0;
 }
 
 int LISTAID(char * entrada){
     
-    tk = (char*) calloc(100, sizeof(char));
-    
-    if(temqueler){
-        linha = getLinha(-1);
-        coluna = getColuna(-1);
-        tk = token(entrada)[0];
-    }
-    temqueler = 1;
-    if(!strcmp(tk, "[VIRG]")){
+    if(testaToken(entrada, "[VIRG]")){
         
-        linha = getLinha(-1);
-        coluna = getColuna(-1);
-        tk = token(entrada)[0];
-        if(!strcmp(tk, "[ID]")){
-        
+        if(testaToken(entrada, "[ID]")){
+            
             if(LISTAID(entrada)){
                 return 1;
             }
         }
     }
     else{
-        temqueler = 0; //NAO, JA LEU
         return 1;
     }
     return 0;
@@ -180,15 +114,10 @@ int LISTAID(char * entrada){
 
 int TIPO(char * entrada){
     
-    tk = (char*) calloc(100, sizeof(char));
-    
-    linha = getLinha(-1);
-    coluna = getColuna(-1);
-    tk = token(entrada)[0];
-    if(!strcmp(tk, "[REAL]"))
+    if(testaToken(entrada, "[REAL]"))
         return 1;
 
-    if(!strcmp(tk, "[BOOLEAN]"))
+    if(testaToken(entrada, "[BOOLEAN]"))
         return 1;
     
     return 0;
@@ -196,15 +125,7 @@ int TIPO(char * entrada){
 
 int BLOCOM(char * entrada){
     
-    tk = (char*) calloc(100, sizeof(char));
-    
-    if(temqueler){
-        linha = getLinha(-1);
-        coluna = getColuna(-1);
-        tk = token(entrada)[0];
-    }
-    temqueler = 1;
-    if(!strcmp(tk, "[BEGIN]")){
+    if(testaToken(entrada, "[BEGIN]")){
         
         if(COM(entrada)){
             
@@ -212,58 +133,27 @@ int BLOCOM(char * entrada){
                 
                 if(FIMCOM(entrada)){
                     
-                    if(temqueler){
-                        linha = getLinha(-1);
-                        coluna = getColuna(-1);
-                        tk = token(entrada)[0];
-                    }
-                    temqueler = 1;
-                    if(!strcmp(tk, "[END]")){
+                    if(testaToken(entrada, "[END]")){
                         return 1;
                     }
                 }
             }
         }
     }
-    else{
-        temqueler = 0;
-        return 1;
-    }
-    
     return 0;
 }
 
 int COM(char * entrada){
     
-    tk = (char*) calloc(100, sizeof(char));
-    
-    if(temqueler){
-        linha = getLinha(-1);
-        coluna = getColuna(-1);
-        tk = token(entrada)[0];
-    }
-    temqueler = 1;
-    if(!strcmp(tk, "[READ]")){
+    if(testaToken(entrada, "[READ]")){
         
-        linha = getLinha(-1);
-        coluna = getColuna(-1);
-        tk = token(entrada)[0];
-        if(!strcmp(tk, "[APAR]")){
+        if(testaToken(entrada, "[APAR]")){
             
-            linha = getLinha(-1);
-            coluna = getColuna(-1);
-            tk = token(entrada)[0];
-            if(!strcmp(tk, "[ID]")){
+            if(testaToken(entrada, "[ID]")){
                 
                 if(LISTAID(entrada)){
                     
-                    if(temqueler){
-                        linha = getLinha(-1);
-                        coluna = getColuna(-1);
-                        tk = token(entrada)[0];
-                    }
-                    temqueler = 1;
-                    if(!strcmp(tk, "[FPAR]")){
+                    if(testaToken(entrada, "[FPAR]")){
                         return 1;
                     }
                 }
@@ -271,32 +161,28 @@ int COM(char * entrada){
         }
     }
     else{
-        if(!strcmp(tk, "[WRITE]")){
+        if(testaToken(entrada, "[WRITE]")){
         
-            linha = getLinha(-1);
-            coluna = getColuna(-1);
-            tk = token(entrada)[0];
-            if(!strcmp(tk, "[APAR]")){
+            if(testaToken(entrada, "[APAR]")){
                 
                 if(EXP(entrada)){
                     
                     if(OP(entrada)){
                         
                         if(LISTAEXP(entrada)){
-                            return 1;
+                            
+                            if(testaToken(entrada, "[FPAR]")){
+                                return 1;
+                            }
                         }
                     }
                 }
-                
             }
         }
         else{
-            if(!strcmp(tk, "[ID]")){
+            if(testaToken(entrada, "[ID]")){
                 
-                linha = getLinha(-1);
-                coluna = getColuna(-1);
-                tk = token(entrada)[0];
-                if(!strcmp(tk, "[ATRIB]")){
+                if(testaToken(entrada, "[ATRIB]")){
                     
                     if(EXP(entrada)){
                     
@@ -318,15 +204,7 @@ int COM(char * entrada){
 
 int LISTACOM(char * entrada){
     
-    tk = (char*) calloc(100, sizeof(char));
-    
-    if(temqueler){
-        linha = getLinha(-1);
-        coluna = getColuna(-1);
-        tk = token(entrada)[0];
-    }
-    temqueler = 1;
-    if(!strcmp(tk, "[PTVIR]")){
+    if(testaToken(entrada, "[PTVIR]")){
         
         if(COM(entrada)){
             
@@ -336,79 +214,323 @@ int LISTACOM(char * entrada){
         }
     }
     else{
-        temqueler = 0;
         return 1;
     }
-    
     return 0;
 }
 
 int FIMCOM(char * entrada){
     
-    tk = (char*) calloc(100, sizeof(char));
-    
-    if(temqueler){
-        linha = getLinha(-1);
-        coluna = getColuna(-1);
-        tk = token(entrada)[0];
-    }
-    temqueler = 1;
-    if(!strcmp(tk, "[PTVIR]")){
+    if(testaToken(entrada, "[PTVIR]"))
         return 1;
-    }
-    else{
-        temqueler = 0;
-        return 1;
-    }
     
-    return 0;
+    return 1;
 }
 
 int BLIF(char * entrada){
-    return 1;
+    
+    if(testaToken(entrada, "[IF]")){
+        
+        if(EXP(entrada)){
+            
+            if(OP(entrada)){
+                
+                if(testaToken(entrada, "[THEN]")){
+                    
+                    if(BLOCOM(entrada)){
+                        
+                        if(BLELSE(entrada)){
+                            return 1;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return 0;
 }
 
 int BLELSE(char * entrada){
-    return 1;
+    
+    if(testaToken(entrada, "[ELSE]")){
+        
+        if(BLOCOM(entrada)){
+            return 1;
+        }
+    }
+    else{
+        return 1;
+    }
+    return 0;
 }
 
 int LISTAEXP(char * entrada){
-    return 1;
+    
+    if(testaToken(entrada, "[VIRG]")){
+        
+        if(EXP(entrada)){
+            
+            if(OP(entrada)){
+                
+                if(LISTAEXP(entrada)){
+                    return 1;
+                }
+            }
+        }
+    }
+    else{
+        return 1;
+    }
+    return 0;
 }
 
 int EXP(char * entrada){
-    return 1;
+    
+    if(testaToken(entrada, "[NOT]"));
+    
+    if(UNI(entrada)){
+        
+        if(OP3(entrada)){
+            
+            if(OP2(entrada)){
+                
+                if(OP1(entrada)){
+                    return 1;
+                }
+            }
+        }
+    }
+    return 0;
 }
 
 int OP(char * entrada){
-    return 1;
+    
+    if(testaToken(entrada, "[IGUAL]")){
+        
+        if(EXP(entrada)){
+            return 1;
+        }
+    }
+    else{
+        if(testaToken(entrada, "[DIF]")){
+            
+            if(EXP(entrada)){
+                return 1;
+            }
+        }
+        else{
+            if(testaToken(entrada, "[MAIOR]")){
+                
+                if(EXP(entrada)){
+                    return 1;
+                }
+            }
+            else{
+                if(testaToken(entrada, "[MENOR]")){
+                    
+                    if(EXP(entrada)){
+                        return 1;
+                    }
+                }
+                else{
+                    if(testaToken(entrada, "[MAIORIG]")){
+                        
+                        if(EXP(entrada)){
+                            return 1;
+                        }
+                    }
+                    else{
+                        if(testaToken(entrada, "[MENORIG]")){
+                            
+                            if(EXP(entrada)){
+                                return 1;
+                            }
+                        }
+                        else{
+                            return 1;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return 0;
 }
 
 int OP1(char * entrada){
-    return 1;
+    
+    if(testaToken(entrada, "[AND]")){
+        
+        if(EXP(entrada)){
+            return 1;
+        }
+    }
+    else{
+        if(testaToken(entrada, "[OR]")){
+            
+            if(EXP(entrada)){
+                return 1;
+            }
+        }
+        else{
+            return 1;
+        }
+    }
+    return 0;
 }
 
 int OP2(char * entrada){
-    return 1;
+    
+    if(testaToken(entrada, "[SOMA]")){
+        
+        if(UNI(entrada)){
+            
+            if(OP3(entrada)){
+                
+                if(OP2(entrada)){
+                    return 1;
+                }
+            }
+        }
+    }
+    else{
+        if(testaToken(entrada, "[SUBT]")){
+            
+            if(UNI(entrada)){
+                
+                if(OP3(entrada)){
+                    
+                    if(OP2(entrada)){
+                        return 1;
+                    }
+                }
+            }
+        }
+        else{
+            return 1;
+        }
+    }
+    return 0;
 }
 
 int OP3(char * entrada){
-    return 1;
+    
+    if(testaToken(entrada, "[MULT]")){
+        
+        if(UNI(entrada)){
+            
+            if(OP3(entrada)){
+                return 1;
+            }
+        }
+    }
+    else{
+        if(testaToken(entrada, "[DIV]")){
+            
+            if(UNI(entrada)){
+                
+                if(OP3(entrada)){
+                    return 1;
+                }
+            }
+        }
+        else{
+            if(testaToken(entrada, "[DIVINT]")){
+                
+                if(UNI(entrada)){
+                    
+                    if(OP3(entrada)){
+                        return 1;
+                    }
+                }
+            }
+            else{
+                return 1;
+            }
+        }
+    }
+    return 0;
 }
 
 int UNI(char * entrada){
-    return 1;
+    
+    if(testaToken(entrada, "[APAR]")){
+        
+        if(EXP(entrada)){
+            
+            if(OP(entrada)){
+                
+                if(testaToken(entrada, "[FPAR]")){
+                    return 1;
+                }
+            }
+        }
+    }
+    else{
+        if(testaToken(entrada, "[ID]")){
+            return 1;
+        }
+        else{
+            if(testaToken(entrada, "[CONST]")){
+                return 1;
+            }
+            else{
+                if(testaToken(entrada, "[BOOL]")){
+                    return 1;
+                }
+            }
+        }
+    }
+    return 0;
 }
 
-/*
-char * letoken(char * entrada, char * temqueler, int * linha, int * coluna){
+int testaToken(char * entrada, char * tk){
     
-    char * tk = (char*) calloc(100, sizeof(char));
+    static char * temp_tk;
     
-    if(*temqueler){
-        *linha = getLinha(-1);
-        *coluna = getColuna(-1);
-        tk = token(entrada)[0];
+    if(temqueler(-1)){
+        preLinha(getLinha(-1));
+        preColuna(getColuna(-1));
+        temp_tk = (char*) malloc(20*sizeof(char));
+        temp_tk = token(entrada)[0];
     }
-    return tk;
-}*/
+    
+    if(!strcmp(temp_tk, tk)){
+        temqueler(1);
+        return 1;
+    }
+    else{
+        temqueler(0);
+        return 0;
+    }
+}
+
+int temqueler(int in){
+    
+    static int out = 1;
+    
+    if(in >= 0)
+        out = in;
+    
+    return out;
+}
+
+int preLinha(int in){
+    
+    static int out;
+    
+    if(in >= 0)
+        out = in;
+    
+    return out;
+}
+
+int preColuna(int in){
+    
+    static int out;
+    
+    if(in >= 0)
+        out = in;
+    
+    return out;
+}

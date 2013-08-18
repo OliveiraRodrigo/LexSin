@@ -54,3 +54,9 @@ int OP2(char * entrada);
 int OP3(char * entrada);
 
 int UNI(char * entrada);
+
+char * getToken(char * entrada);
+
+int testaToken(char * entrada, char * tk);
+
+int temqueler(int in);

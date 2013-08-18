@@ -6,17 +6,6 @@ WTF : real;
 
 begin
 
-  read (x, qwerty);
-
-  if y <= x
-    then
-      begin
-        qwerty :=  false;
-        write(y < 22, x = 1)
-      end
-  else
-      begin
-        qwerty := true
-      end
+  a:=1;
 
 end
