@@ -30,8 +30,10 @@ char * START(char * entrada){
                 if(LISTADEC(entrada)){
                     
                     if(BLOCOM(entrada)){
-                        testaToken(entrada,""); // Zera para o proximo arquivo
-                        return "Analise completada com sucesso.";
+                        
+                        if(testaToken(entrada,"")){
+                            return "Analise completada com sucesso.";
+                        }
                     }
                 }
             }
@@ -135,12 +137,12 @@ int BLOCOM(char * entrada){
             
             if(LISTACOM(entrada)){
                 
-                if(FIMCOM(entrada)){
+                //if(FIMCOM(entrada)){
                     
                     if(testaToken(entrada, "[END]")){
                         return 1;
                     }
-                }
+                //}
             }
         }
     }
@@ -210,11 +212,11 @@ int LISTACOM(char * entrada){
     
     if(testaToken(entrada, "[PTVIR]")){
         
-        if(COM(entrada)){
+        if(LCOM(entrada)){
             
-            if(LISTACOM(entrada)){
+            //if(LISTACOM(entrada)){
                 return 1;
-            }
+            //}
         }
     }
     else{
@@ -223,12 +225,18 @@ int LISTACOM(char * entrada){
     return 0;
 }
 
-int FIMCOM(char * entrada){
+int LCOM(char * entrada){
     
-    if(testaToken(entrada, "[PTVIR]"))
+    if(COM(entrada)){
+        
+        if(LISTACOM(entrada)){
+            return 1;
+        }
+    }
+    else{
         return 1;
-    
-    return 1;
+    }
+    return 0;
 }
 
 int BLIF(char * entrada){
