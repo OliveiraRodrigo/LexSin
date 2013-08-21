@@ -137,12 +137,9 @@ int BLOCOM(char * entrada){
             
             if(LISTACOM(entrada)){
                 
-                //if(FIMCOM(entrada)){
-                    
-                    if(testaToken(entrada, "[END]")){
-                        return 1;
-                    }
-                //}
+                if(testaToken(entrada, "[END]")){
+                    return 1;
+                }
             }
         }
     }
@@ -213,10 +210,7 @@ int LISTACOM(char * entrada){
     if(testaToken(entrada, "[PTVIR]")){
         
         if(LCOM(entrada)){
-            
-            //if(LISTACOM(entrada)){
-                return 1;
-            //}
+            return 1;
         }
     }
     else{

@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "lexico.h"
+#include "sintatico.h"
 
 int main(int argc, char** argv) {
     
